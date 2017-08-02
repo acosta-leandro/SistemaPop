@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Cláudia
+
  */
 public class DAOUsuario {
 
     public void cadastrar(Usuario login) {
+        System.out.println("teste1");
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
@@ -33,7 +33,7 @@ public class DAOUsuario {
                     + " 1,"
                     + "'U')";
 
-            int resultado = st.executeUpdate(sql);
+           st.execute(sql);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -211,5 +211,49 @@ public class DAOUsuario {
         }
 
         return usuarios;
+    }
+    
+    public Usuario consultar(int id) {
+        ResultSet resultado;
+        Usuario usuario = new Usuario(0, "", "", "", "", true, 0, "");
+        String sql = "SELECT * FROM usuario WHERE idUsuario = '" + id + "'";
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            if (resultado.next()) {
+                usuario.setIdUsuario(resultado.getInt("idusuario"));
+                usuario.setLogin(resultado.getString("login"));
+                usuario.setSenha(resultado.getString("senha"));
+                usuario.setNome(resultado.getString("nome"));
+                usuario.setEmail(resultado.getString("email"));
+                usuario.setAtivo(resultado.getBoolean("ativo"));
+                usuario.setIdArea(resultado.getInt("idarea"));
+                usuario.setPermissao(resultado.getString("permissao"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar usuário: " + e);
+        }
+        return usuario;
+    }
+    
+        public String consultarNome(String id) {
+        ResultSet resultado;
+        Usuario usuario = new Usuario(0, "", "", "", "", true, 0, "");
+        String sql = "SELECT * FROM usuario WHERE idUsuario = '" + id + "'";
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            if (resultado.next()) {
+                usuario.setIdUsuario(resultado.getInt("idusuario"));
+                usuario.setLogin(resultado.getString("login"));
+                usuario.setSenha(resultado.getString("senha"));
+                usuario.setNome(resultado.getString("nome"));
+                usuario.setEmail(resultado.getString("email"));
+                usuario.setAtivo(resultado.getBoolean("ativo"));
+                usuario.setIdArea(resultado.getInt("idarea"));
+                usuario.setPermissao(resultado.getString("permissao"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar usuário: " + e);
+        }
+        return usuario.getNome();
     }
 }

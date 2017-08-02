@@ -14,9 +14,11 @@ import DAOs.DAOPop;
 import DAOs.DAOUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.text.Format;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -160,6 +162,12 @@ public class Acao extends HttpServlet {
     //-> LOGIN
 
     private void cadastrarLogin() {
+        int idArea;
+        if (requisicao.getParameter("idArea") == null) {
+            idArea = 1;
+        } else {
+            idArea = Integer.valueOf(requisicao.getParameter("idArea"));
+        }
 
         Usuario user = new Usuario(0,
                 requisicao.getParameter("login"),
@@ -167,7 +175,7 @@ public class Acao extends HttpServlet {
                 requisicao.getParameter("nome"),
                 requisicao.getParameter("email"),
                 Boolean.valueOf(requisicao.getParameter("ativo")),
-                Integer.valueOf(requisicao.getParameter("idArea")),
+                idArea,
                 requisicao.getParameter("permissao"));
 
         //Checa o se há erro
@@ -185,8 +193,8 @@ public class Acao extends HttpServlet {
                 erro = "- Usuário ja cadastrado no sistema";
                 erros.add(erro);
             }
-            if (requisicao.getParameter("usuario").isEmpty() == true) {
-                erro = "- Campo usuário não preenchido";
+            if (requisicao.getParameter("login").isEmpty() == true) {
+                erro = "- Campo login não preenchido";
                 erros.add(erro);
             }
             if ((requisicao.getParameter("senha").equals(requisicao.getParameter("senhacheck"))) == false) {
@@ -292,30 +300,42 @@ public class Acao extends HttpServlet {
     }
 
     private void pop() {
+        Date dtCriacao;
+        Date dtUpdate;
+        if (requisicao.getParameter("dtCriacao") == null) {
+            dtCriacao = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        } else {
+            dtCriacao = Date.valueOf(requisicao.getParameter("dtCriacao"));
+        }
+        if (requisicao.getParameter("dtUpdate") == null) {
+            dtUpdate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        } else {
+            dtUpdate = Date.valueOf(requisicao.getParameter("dtUpdate"));
+        }
+
         Pop pop = new Pop(0,
                 requisicao.getParameter("titulo"),
                 requisicao.getParameter("objetivo"),
                 requisicao.getParameter("aplicacao"),
                 requisicao.getParameter("conteudo"),
                 requisicao.getParameter("divulgacao"),
-                Date.valueOf(requisicao.getParameter("dtCriacao")),
-                Date.valueOf(requisicao.getParameter("dtUpdate")),
-                Integer.valueOf(requisicao.getParameter("idcriador")),
+                dtCriacao,
+                dtUpdate,
+                Integer.valueOf(requisicao.getParameter("idCriador")),
                 requisicao.getParameter("nomeCriador"),
                 Integer.valueOf(requisicao.getParameter("idarea")),
-                requisicao.getParameter("nomeArea"),
+                daoUsuario.consultarNome(requisicao.getParameter("idarea")),
                 Integer.valueOf(requisicao.getParameter("idrevisor")),
-                requisicao.getParameter("nomeRevisor"),
+                daoUsuario.consultarNome(requisicao.getParameter("idrevisor")),
                 Integer.valueOf(requisicao.getParameter("ipupdate")),
                 Integer.valueOf(requisicao.getParameter("revisao")));
 
-      
-            daoPop.cadastrar(pop);
-            String notificacao = "Cadastro feito com sucesso";
-            requisicao.setAttribute("notificacao", notificacao);
-            requisicao.setAttribute("paginaRetorno", "cadastrarLogin");
-            encaminharPagina("index.jsp");
-        
+        daoPop.cadastrar(pop);
+        String notificacao = "Cadastro feito com sucesso";
+        requisicao.setAttribute("notificacao", notificacao);
+        requisicao.setAttribute("paginaRetorno", "cadastrarLogin");
+        encaminharPagina("index.jsp");
+
     }
 
     private void logout() {

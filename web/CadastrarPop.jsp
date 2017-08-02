@@ -54,7 +54,8 @@
 
                     <label class="col-sm-2 control-label">Responsável:</label>
                     <div class="col-md-8">                   
-                        <label name="usuario"><%=userLogado.getNome()%></label>
+                        <label name="nomeCriador"><%=userLogado.getNome()%></label>
+                        <label name="idCriador"><%=userLogado.getIdUsuario()%></label>
                     </div>
                 </div>
 
@@ -91,7 +92,7 @@
                 <div class="form-group">
                     <label  class="col-sm-2 control-label">Area:</label>
                     <div class="col-md-8">
-                        <select name="areas">
+                        <select name="idArea">
                             <%
                                 for (int i = 0; i < areas.size(); i++) {
                                     Area area = (Area) areas.get(i);
@@ -104,7 +105,7 @@
                 <div class="form-group">
                     <label  class="col-sm-2 control-label">Revisor:</label>
                     <div class="col-md-8">
-                        <select name="revisor">
+                        <select name="idRevisor">
                             <%
                                 for (int i = 0; i < revisores.size(); i++) {
                                     Usuario revisor = (Usuario) revisores.get(i);
@@ -114,17 +115,6 @@
                         </select>
                     </div>
                 </div>
-
-
-                <input name="dtCriacao" value="<%= pop.getDtCriacao()%>">
-                <input name="dtUpdate" value="<%= pop.getDtUpdate()%>">
-                <input name="idCriador" value="<%= pop.getIdCriador()%>">
-                <input name="idarea" value="<%= pop.getIdArea()%>">
-                <input name="idrevisor" value="<%= pop.getIdRevisor()%>"> 
-                <input name="idupdate" value="<%= pop.getIdUpdate()%>">
-                <input name="versao" value="<%= pop.getVersao()%>">
-  
-
                 <br>
 
                 <div class="form-group">

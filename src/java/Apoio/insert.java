@@ -1,0 +1,1 @@
+// insert into area values (default, 'Inicial', false);
