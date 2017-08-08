@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title> Sistema Pop</title>
         <link href="/SistemaPop/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="/SistemaPop/bootstrap/css/signin.css" rel="stylesheet" type="text/css"/>
     </head>
@@ -21,7 +21,7 @@
         <div class="container">
 
             <form action="/SistemaPop/Acao?tipo=usuario&operacao=login" method="post" class="form-signin">
-                <h2 class="form-signin-heading">Tela de Login</h2>
+                <h2 class="form-signin-heading">POP - Login</h2>
                 <br>
                 
                 <%

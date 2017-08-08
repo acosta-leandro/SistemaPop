@@ -55,7 +55,13 @@
                     <label class="col-sm-2 control-label">Responsável:</label>
                     <div class="col-md-8">                   
                         <label name="nomeCriador"><%=userLogado.getNome()%></label>
-                        <label name="idCriador"><%=userLogado.getIdUsuario()%></label>
+                                    <br>
+                        <input type="hidden" name="idCriador" value="<%= userLogado.getIdUsuario()%>">
+                                    <br>
+                        <input  name="idUpdate" value="<%= pop.getIdUpdate()%>">
+                                    <br>
+                        <input  name="versao" value="<%= pop.getVersao()%>">
+
                     </div>
                 </div>
 

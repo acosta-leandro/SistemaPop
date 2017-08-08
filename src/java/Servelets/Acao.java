@@ -7,9 +7,11 @@ package Servelets;
 
 import Apoio.Formatacao;
 import Classes.Area;
+import Classes.Melhoria;
 import Classes.Pop;
 import Classes.Usuario;
 import DAOs.DAOArea;
+import DAOs.DAOMelhoria;
 import DAOs.DAOPop;
 import DAOs.DAOUsuario;
 import java.io.IOException;
@@ -40,6 +42,7 @@ public class Acao extends HttpServlet {
     DAOUsuario daoUsuario = new DAOUsuario();
     DAOArea daoArea = new DAOArea();
     DAOPop daoPop = new DAOPop();
+    DAOMelhoria daoMelhoria = new DAOMelhoria();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -146,6 +149,14 @@ public class Acao extends HttpServlet {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("cadastrarPop")) {
                 System.out.println("chamou popii");
                 pop();
+            }
+        }
+        if (requisicao.getParameter("tipo").equalsIgnoreCase("melhoria")) {
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("cadastrarMelhoria")) {
+                cadastrarMelhoria();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("proporMelhoria")) {
+                proporMelhoria();
             }
         }
     }
@@ -282,7 +293,6 @@ public class Acao extends HttpServlet {
     }
 
     private void login() {
-        System.out.println("chamou login");
         Usuario usuario = daoUsuario.login(requisicao.getParameter("login"), requisicao.getParameter("senha"));
 
         if (usuario.getIdUsuario() != 0) {
@@ -307,6 +317,13 @@ public class Acao extends HttpServlet {
         } else {
             dtCriacao = Date.valueOf(requisicao.getParameter("dtCriacao"));
         }
+
+        if (requisicao.getParameter("dtUpdate") == null) {
+            dtUpdate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        } else {
+            dtUpdate = Date.valueOf(requisicao.getParameter("dtUpdate"));
+        }
+
         if (requisicao.getParameter("dtUpdate") == null) {
             dtUpdate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
         } else {
@@ -323,18 +340,18 @@ public class Acao extends HttpServlet {
                 dtUpdate,
                 Integer.valueOf(requisicao.getParameter("idCriador")),
                 requisicao.getParameter("nomeCriador"),
-                Integer.valueOf(requisicao.getParameter("idarea")),
-                daoUsuario.consultarNome(requisicao.getParameter("idarea")),
-                Integer.valueOf(requisicao.getParameter("idrevisor")),
-                daoUsuario.consultarNome(requisicao.getParameter("idrevisor")),
-                Integer.valueOf(requisicao.getParameter("ipupdate")),
-                Integer.valueOf(requisicao.getParameter("revisao")));
+                Integer.valueOf(requisicao.getParameter("idArea")),
+                daoUsuario.consultarNome(requisicao.getParameter("idArea")),
+                Integer.valueOf(requisicao.getParameter("idRevisor")),
+                daoUsuario.consultarNome(requisicao.getParameter("idRevisor")),
+                Integer.valueOf(requisicao.getParameter("idUpdate")),
+                Integer.valueOf(requisicao.getParameter("versao")));
 
         daoPop.cadastrar(pop);
         String notificacao = "Cadastro feito com sucesso";
         requisicao.setAttribute("notificacao", notificacao);
         requisicao.setAttribute("paginaRetorno", "cadastrarLogin");
-        encaminharPagina("index.jsp");
+        encaminharPagina("Home.jsp");
 
     }
 
@@ -377,5 +394,30 @@ public class Acao extends HttpServlet {
         String notificacao = "Promovido para Administrador";
         requisicao.setAttribute("notificacao", notificacao);
         encaminharPagina("ListarUsuario.jsp");
+    }
+
+    //-> Melhoria
+    private void cadastrarMelhoria() {
+        Melhoria melhoria = new Melhoria(0,
+                requisicao.getParameter("melhoria"),
+                Boolean.valueOf(requisicao.getParameter("util")),
+                Boolean.valueOf(requisicao.getParameter("feita")),
+                Integer.valueOf(requisicao.getParameter("idPop")),
+                Integer.valueOf(requisicao.getParameter("idUsuario")));
+
+        if (melhoria.getIdMelhoria() == 0) {
+            daoMelhoria.salvar(melhoria);
+            String notificacao = "Melhoria cadastrada com sucesso";
+            encaminharPagina("ListarMelhoria.jsp");
+        } else {
+            // daoMelhoria.atualizar(melhoria);
+            String notificacao = "Melhoria editada com sucesso";
+            encaminharPagina("ListarMelhoria.jsp");
+        }
+    }
+
+    private void proporMelhoria() {
+        requisicao.setAttribute("idPop", requisicao.getParameter("idPop"));
+        encaminharPagina("CadastrarMelhoria.jsp");
     }
 }

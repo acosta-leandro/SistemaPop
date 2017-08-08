@@ -235,7 +235,7 @@ public class DAOUsuario {
         return usuario;
     }
     
-        public String consultarNome(String id) {
+    public String consultarNome(String id) {
         ResultSet resultado;
         Usuario usuario = new Usuario(0, "", "", "", "", true, 0, "");
         String sql = "SELECT * FROM usuario WHERE idUsuario = '" + id + "'";

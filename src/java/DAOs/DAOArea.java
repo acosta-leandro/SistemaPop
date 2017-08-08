@@ -114,4 +114,21 @@ public class DAOArea {
         return area;
     }
 
+    public String consultarNome(String id) {
+        ResultSet resultado;
+        Area area = new Area(0, "", true);
+        String sql = "SELECT * FROM area WHERE idArea = '" + id + "'";
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            if (resultado.next()) {
+                area.setIdArea(resultado.getInt("idarea"));
+                area.setDescricao(resultado.getString("area"));
+                area.setAtivo(resultado.getBoolean("ativo"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar usuário: " + e);
+        }
+        return area.getDescricao();
+    }
+
 }

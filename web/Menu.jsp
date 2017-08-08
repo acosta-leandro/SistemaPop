@@ -34,36 +34,46 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Easy POP</a>
+                        <a class="navbar-brand" href="Home.jsp">Sistema POP</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="Home.jsp">Início</a></li>
-                            <li><a href="ListarArea.jsp">Areas</a></li>
-                            <li><a href="CadastrarPop.jsp">CadastrarPop</a></li>
-                            <li><a href="TopicosRecentes.jsp">Relatórios</a></li>
-                                <%                                    //    if (l.getPermissao().equalsIgnoreCase("A")) {
-                                %>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Área<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="CadastrarArea.jsp">Nova Área</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">Listar</li>
+                                    <li><a href="listarArea.jsp">Todos</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">POP <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="CadastrarPop.jsp">Novo Pop</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">Listar</li>
+                                    <li><a href="ListarPop.jsp">Todos</a></li>
+                                    <li><a href="#">10 Últimos</a></li>
+                                    <li><a href="#">Por Área</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Melhoria <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                          <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header">Listar</li>
+                                    <li><a href="ListarMelhoria.jsp">Todas</a></li>
+                                </ul>
+                            </li>
+                            <%                                    //    if (l.getPermissao().equalsIgnoreCase("A")) {
+                            %>
                             <li><a href="ListarUsuario.jsp">Usuários</a></li>         
                                 <%              //                  }
                                 %>
 
-                            <%--
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Listagens <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="listaPais.jsp">País</a></li>
-                                    <li><a href="#">Lugar</a></li>
-                                    <li><a href="#">Modalidade</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="dropdown-header">Nav header</li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li><a href="#">One more separated link</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
-                            --%>
 
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
