@@ -147,8 +147,13 @@ public class Acao extends HttpServlet {
         }
         if (requisicao.getParameter("tipo").equalsIgnoreCase("pop")) {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("cadastrarPop")) {
-                System.out.println("chamou popii");
                 pop();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("excluirPop")) {
+                excluirPop();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("excluirTodosPopsAnteriores")) {
+                excluirTodosPopsAnteriores();
             }
         }
         if (requisicao.getParameter("tipo").equalsIgnoreCase("melhoria")) {
@@ -345,7 +350,9 @@ public class Acao extends HttpServlet {
                 Integer.valueOf(requisicao.getParameter("idRevisor")),
                 daoUsuario.consultarNome(requisicao.getParameter("idRevisor")),
                 Integer.valueOf(requisicao.getParameter("idUpdate")),
-                Integer.valueOf(requisicao.getParameter("versao")));
+                Integer.valueOf(requisicao.getParameter("versao")),
+                Boolean.valueOf(requisicao.getParameter("ultimaVersao")),
+                Boolean.valueOf(requisicao.getParameter("excluido")));
 
         daoPop.cadastrar(pop);
         String notificacao = "Cadastro feito com sucesso";
@@ -419,5 +426,26 @@ public class Acao extends HttpServlet {
     private void proporMelhoria() {
         requisicao.setAttribute("idPop", requisicao.getParameter("idPop"));
         encaminharPagina("CadastrarMelhoria.jsp");
+    }
+
+    private void excluirPop() {
+        daoPop.excluir(Integer.parseInt(requisicao.getParameter("idPop")));
+        String notificacao = "Pop Excluído";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("ListarPop.jsp");
+    }
+
+    private void excluirTodosPopsAnteriores() {
+        Pop tmpPop = daoPop.consultarId(Integer.parseInt(requisicao.getParameter("idPop")));
+        if (tmpPop.isUltimaVersao()) {
+            daoPop.excluirTodasVersões(Integer.parseInt(requisicao.getParameter("idPop")));
+            String notificacao = "Todas versões deste POP Excluídos!";
+            requisicao.setAttribute("notificacao", notificacao);
+            encaminharPagina("ListarPop.jsp");
+        } else {
+            String notificacao = "Selecione a última versão deste POP para excluir todos!";
+            requisicao.setAttribute("notificacao", notificacao);
+            encaminharPagina("ListarPop.jsp");
+        }
     }
 }
