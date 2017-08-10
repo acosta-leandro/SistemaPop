@@ -36,9 +36,11 @@ public class DAOPop {
                     + "" + pop.getIdArea() + ","
                     + "" + pop.getIdRevisor() + ","
                     + "" + pop.getIdUpdate() + ","
-                    + "" + pop.getVersao() + ");";
+                    + "" + pop.getVersao() + ","
+                    + "" + pop.isUltimaVersao() + ","
+                    + "" + pop.isExcluido() + ");";
 
-            int resultado = st.executeUpdate(sql);
+            st.executeUpdate(sql);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -55,7 +57,7 @@ public class DAOPop {
             resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
 
             while (resultado.next()) {
-                Pop pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 0);
+                Pop pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 0, true, false);
                 pop.setIdPop(resultado.getInt("idpop"));
                 pop.setTitulo(resultado.getString("titulo"));
                 pop.setObjetivo(resultado.getString("objetivo"));
@@ -72,7 +74,8 @@ public class DAOPop {
                 pop.setNomeRevisor(new DAOUsuario().consultarNome(resultado.getString("idRevisor")));
                 pop.setIdUpdate(resultado.getInt("idUpdate"));
                 pop.setVersao(resultado.getInt("versao"));
-
+                pop.setUltimaVersao(resultado.getBoolean("ultimaversao"));
+                pop.setExcluido(resultado.getBoolean("excluido"));
                 pops.add(pop);
             }
         } catch (Exception e) {
@@ -84,13 +87,13 @@ public class DAOPop {
     public Pop consultarId(int id) {
 
         ResultSet resultado;
-        Pop pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 0);
+        Pop pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 0, true, false);
         String sql = "SELECT * FROM pop WHERE idPop = " + id;
 
         try {
             resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
 
-             if (resultado.next()) {
+            if (resultado.next()) {
                 pop.setIdPop(resultado.getInt("idpop"));
                 pop.setTitulo(resultado.getString("titulo"));
                 pop.setObjetivo(resultado.getString("objetivo"));
@@ -107,10 +110,40 @@ public class DAOPop {
                 pop.setNomeRevisor(new DAOUsuario().consultarNome(resultado.getString("idRevisor")));
                 pop.setIdUpdate(resultado.getInt("idUpdate"));
                 pop.setVersao(resultado.getInt("versao"));
+                pop.setUltimaVersao(resultado.getBoolean("ultimaversao"));
+                pop.setExcluido(resultado.getBoolean("excluido"));
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao consultar pop: " + e);
         }
         return pop;
+    }
+
+    public void excluir(int idPop) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE pop SET "
+                    + "excluido = 'true' "
+                    + "WHERE idPop = " + idPop + "";
+
+            int resultado = st.executeUpdate(sql);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void excluirTodasVersões(int idPop) {
+        Pop tmpPop = consultarId(idPop);
+        if (tmpPop.getIdUpdate() == 0) {
+            excluir(idPop);
+        } else {
+            while (tmpPop.getIdUpdate() != 0) {
+                tmpPop = consultarId(tmpPop.getIdUpdate());
+                excluir(tmpPop.getIdPop());
+            }
+        }
     }
 }

@@ -12,7 +12,35 @@ import java.sql.Date;
  * @author Leandro Acosta <leandro.acosta292@hotmail.com>
  */
 public class Pop {
-    
+
+    /**
+     * @return the ultimaVersao
+     */
+    public boolean isUltimaVersao() {
+        return ultimaVersao;
+    }
+
+    /**
+     * @param ultimaVersao the ultimaVersao to set
+     */
+    public void setUltimaVersao(boolean ultimaVersao) {
+        this.ultimaVersao = ultimaVersao;
+    }
+
+    /**
+     * @return the excluido
+     */
+    public boolean isExcluido() {
+        return excluido;
+    }
+
+    /**
+     * @param excluido the excluido to set
+     */
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
+    }
+
     private int idPop;
     private String titulo;
     private String objetivo;
@@ -29,8 +57,10 @@ public class Pop {
     private String nomeRevisor;
     private int idUpdate;
     private int versao;
+    private boolean ultimaVersao;
+    private boolean excluido;
 
-    public Pop(int idPop, String titulo, String objetivo, String aplicacao, String conteudo, String divulgacao, Date dtCriacao, Date dtUpdate, int idCriador, String nomeCriador, int idArea, String nomeArea, int idRevisor, String nomeRevisor, int idUpdate, int versao) {
+    public Pop(int idPop, String titulo, String objetivo, String aplicacao, String conteudo, String divulgacao, Date dtCriacao, Date dtUpdate, int idCriador, String nomeCriador, int idArea, String nomeArea, int idRevisor, String nomeRevisor, int idUpdate, int versao, boolean ultimaVersao, boolean excluido) {
         this.idPop = idPop;
         this.titulo = titulo;
         this.objetivo = objetivo;
@@ -47,7 +77,10 @@ public class Pop {
         this.nomeRevisor = nomeRevisor;
         this.idUpdate = idUpdate;
         this.versao = versao;
+        this.ultimaVersao = ultimaVersao;
+        this.excluido = excluido;
     }
+
     
 
     public int getIdPop() {
@@ -177,6 +210,5 @@ public class Pop {
     public void setVersao(int versao) {
         this.versao = versao;
     }
-    
-    
-    }
+
+}

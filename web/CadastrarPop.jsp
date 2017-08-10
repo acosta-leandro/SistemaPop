@@ -36,7 +36,7 @@
             List revisores = new DAOUsuario().consultarTodosRevisoresAtivos();
 
             if (pop == null) {
-                pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 1);
+                pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 1, true, false);
             } else {
                 // if(daoPop.getTopicosPai(pop.getIdPop()).isEmpty() == false){
                 //   checados = daoPop.getTopicosPai(pop.getIdPop());
@@ -50,17 +50,21 @@
 
             <form action="/SistemaPop/Acao?tipo=pop&operacao=cadastrarPop" method="post" class="form-horizontal">            
                 <div class="form-group">               
-                    
+
 
                     <label class="col-sm-2 control-label">Responsável:</label>
                     <div class="col-md-8">                   
                         <label name="nomeCriador"><%=userLogado.getNome()%></label>
-                                    <br>
+                        <br>
                         <input type="hidden" name="idCriador" value="<%= userLogado.getIdUsuario()%>">
-                                    <br>
+                        <br>
                         <input  name="idUpdate" value="<%= pop.getIdUpdate()%>">
-                                    <br>
+                        <br>
                         <input  name="versao" value="<%= pop.getVersao()%>">
+                        <br>
+                        <input  name="ultimaVersao" value="<%= pop.isUltimaVersao()%>">
+                        <br>
+                        <input  name="excluido" value="<%= pop.isExcluido()%>">
 
                     </div>
                 </div>

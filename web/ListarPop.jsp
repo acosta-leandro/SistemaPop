@@ -87,8 +87,8 @@ Leandro Acosta
                     <%
                         if (pop.getIdCriador() == l.getIdUsuario() || l.getPermissao().equalsIgnoreCase("A")) {
                     %>
-                    <a class ="btn btn-default" OnClick="return confirm('Confirma exclusão?')" href="/SistemaPop/Acao?tipo=topico&operacao=exctopico&id=<%=pop.getIdPop()%>" method="post">Excluir</a>         
-                    <a class ="btn btn-default" OnClick="return confirm('Confirma exclusão?')" href="/SistemaPop/Acao?tipo=topico&operacao=exctopico&id=<%=pop.getIdPop()%>" method="post">Excluir Todas Versões</a>         
+                    <a class ="btn btn-default" OnClick="return confirm('Deseja excluir?')" href="/SistemaPop/Acao?tipo=pop&operacao=excluirPop&idPop=<%=pop.getIdPop()%>" method="post">Excluir</a>         
+                    <a class ="btn btn-default" OnClick="return confirm('Deseja excluir TODAS as versões?')" href="/SistemaPop/Acao?tipo=pop&operacao=excluirTodosPopsAnteriores&idPop=<%=pop.getIdPop()%>" method="post">Excluir Todas Versões</a>         
 
                     <%
                         }
