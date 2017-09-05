@@ -21,7 +21,7 @@
             String erro = (String) request.getAttribute("erro");
 
             if (melhoria == null) {
-                melhoria = new Melhoria(0, "", false, false, 0, 0);
+                melhoria = new Melhoria(0, "", false, false, 0, 0, false);
             }
         %>
         <div class="container">     
@@ -45,12 +45,13 @@
                 <div class="form-group">
                     <label  class="col-sm-2 control-label">Comentário:</label>
                     <div class="col-md-8">
-                        <textarea class="form-control" rows="3" name ="texto" placeholder="Insira o texto*"><%= melhoria.getMelhoria()%></textarea>
+                        <textarea class="form-control" rows="3" name ="melhoria" placeholder="Insira o texto*"><%= melhoria.getMelhoria()%></textarea>
                         <input type="hidden" name="idUsuario" value="<%= usuario.getIdUsuario()%>">
                         <input type="hidden" name="idMelhoria" value="<%= melhoria.getIdMelhoria()%>">
                         <input type="hidden" name="idPop" value="<%= request.getAttribute("idPop")%>">
                         <input type="hidden" name="util" value="<%= melhoria.isUtil()%>">
                         <input type="hidden" name="feita" value="<%= melhoria.isFeita()%>">
+                        <input type="hidden" name="excluido" value="<%= melhoria.isExcluido()%>">
                     </div>
                 </div>
 

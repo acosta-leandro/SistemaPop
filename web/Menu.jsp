@@ -44,7 +44,7 @@
                                     <li><a href="CadastrarArea.jsp">Nova Área</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">Listar</li>
-                                    <li><a href="listarArea.jsp">Todos</a></li>
+                                    <li><a href="ListarArea.jsp">Todos</a></li>
                                 </ul>
                             </li>
 

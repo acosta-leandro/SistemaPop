@@ -163,6 +163,21 @@ public class Acao extends HttpServlet {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("proporMelhoria")) {
                 proporMelhoria();
             }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("excluirMelhoria")) {
+                excluirMelhoria();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("seraFeitoSim")) {
+                melhoriaSeraFeitaSim();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("seraFeitoNao")) {
+                melhoriaSeraFeitaNao();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("foiFeitoSim")) {
+                melhoriaFoiFeitaSim();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("foiFeitoNao")) {
+                melhoriaSeraFeitaNao();
+            }
         }
     }
 
@@ -410,7 +425,8 @@ public class Acao extends HttpServlet {
                 Boolean.valueOf(requisicao.getParameter("util")),
                 Boolean.valueOf(requisicao.getParameter("feita")),
                 Integer.valueOf(requisicao.getParameter("idPop")),
-                Integer.valueOf(requisicao.getParameter("idUsuario")));
+                Integer.valueOf(requisicao.getParameter("idUsuario")),
+                Boolean.valueOf(requisicao.getParameter("excluido")));
 
         if (melhoria.getIdMelhoria() == 0) {
             daoMelhoria.salvar(melhoria);
@@ -448,4 +464,40 @@ public class Acao extends HttpServlet {
             encaminharPagina("ListarPop.jsp");
         }
     }
+
+    private void melhoriaSeraFeitaSim() {
+        daoMelhoria.seraFeito(Integer.parseInt(requisicao.getParameter("idMelhoria")), "true");
+        String notificacao = "Melhoria Será Feita!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("ListarMelhoria.jsp");
+    }
+
+    private void melhoriaSeraFeitaNao() {
+        daoMelhoria.seraFeito(Integer.parseInt(requisicao.getParameter("idMelhoria")), "false");
+        String notificacao = "Melhoria Não Será Feita!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("ListarMelhoria.jsp");
+    }
+
+    private void melhoriaFoiFeitaSim() {
+        daoMelhoria.foiFeito(Integer.parseInt(requisicao.getParameter("idMelhoria")), "true");
+        String notificacao = "Melhoria Feita!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("ListarMelhoria.jsp");
+    }
+
+    private void melhoriaFoiFeitaNao() {
+        daoMelhoria.foiFeito(Integer.parseInt(requisicao.getParameter("idMelhoria")), "false");
+        String notificacao = "Melhoria Não Feita!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("ListarMelhoria.jsp");
+    }
+
+    private void excluirMelhoria() {
+        daoMelhoria.excluir(Integer.parseInt(requisicao.getParameter("idMelhoria")));
+        String notificacao = "Melhoria Excluída!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("ListarMelhoria.jsp");
+    }
+
 }

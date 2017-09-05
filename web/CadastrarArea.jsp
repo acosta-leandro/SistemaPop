@@ -46,7 +46,7 @@ LEANDRO
             <input class="btn btn-lg btn-primary btn-block" name="" type="submit" value="Salvar">
 
             <br>
-            <a class="btn btn-lg btn-primary btn-block" href="ListarAreas.jsp">Voltar</a>
+            <a class="btn btn-lg btn-primary btn-block" href="ListarArea.jsp">Voltar</a>
             <h5>* = Campos obrigatórios</h5>
         </form>    
     </body>

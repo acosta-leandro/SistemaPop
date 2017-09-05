@@ -30,7 +30,8 @@ public class DAOMelhoria {
                     + "" + melhoria.isUtil() + ","
                     + "" + melhoria.isFeita() + ","
                     + "" + melhoria.getIdPop() + ","
-                    + "" + melhoria.getIdUsuario() + ");";
+                    + "" + melhoria.getIdUsuario() + ","
+                    + "" + melhoria.isExcluido() + ");";
 
             int resultado = st.executeUpdate(sql);
 
@@ -47,16 +48,17 @@ public class DAOMelhoria {
         try {
             resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
                     + "SELECT * FROM melhoria "
-                    + "ORDER BY 1");
+                    + "ORDER BY 1 DESC");
 
             while (resultado.next()) {
-                Melhoria melhoria = new Melhoria(0, "", false, false, 0, 0);
+                Melhoria melhoria = new Melhoria(0, "", false, false, 0, 0, false);
                 melhoria.setIdMelhoria(resultado.getInt("idMelhoria"));
                 melhoria.setMelhoria(resultado.getString("melhoria"));
                 melhoria.setUtil(resultado.getBoolean("util"));
-                melhoria.setUtil(resultado.getBoolean("feita"));
+                melhoria.setFeita(resultado.getBoolean("feita"));
                 melhoria.setIdPop(resultado.getInt("idPop"));
                 melhoria.setIdUsuario(resultado.getInt("idUsuario"));
+                melhoria.setExcluido(resultado.getBoolean("excluido"));
                 melhorias.add(melhoria);
             }
         } catch (Exception e) {
@@ -64,4 +66,50 @@ public class DAOMelhoria {
         }
         return melhorias;
     }
+
+    public void seraFeito(int idMelhoria, String permissao) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE melhoria SET "
+                    + "util = '" + permissao + "' "
+                    + "WHERE idmelhoria = " + idMelhoria + "";
+
+            st.executeUpdate(sql);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public void foiFeito(int idMelhoria, String permissao) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE melhoria SET "
+                    + "feita = '" + permissao + "' "
+                    + "WHERE idmelhoria = " + idMelhoria + "";
+
+            int resultado = st.executeUpdate(sql);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    public void excluir(int idMelhoria) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE melhoria SET "
+                    + "excluido = true "
+                    + "WHERE idmelhoria = " + idMelhoria + "";
+
+            int resultado = st.executeUpdate(sql);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
 }

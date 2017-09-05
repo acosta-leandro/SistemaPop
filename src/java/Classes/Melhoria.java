@@ -10,23 +10,35 @@ package Classes;
  * @author Leandro Acosta <leandro.acosta292@hotmail.com>
  */
 public class Melhoria {
-    
+
+    public boolean isExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
+    }
+
     private int idMelhoria;
     private String melhoria;
     private boolean util;
     private boolean feita;
     private int idPop;
     private int idUsuario;
+    private boolean excluido;
 
-    public Melhoria(int idMelhoria, String melhoria, boolean util, boolean feita, int idPop, int idUsuario) {
+    public Melhoria(int idMelhoria, String melhoria, boolean util, boolean feita, int idPop, int idUsuario, boolean excluido) {
         this.idMelhoria = idMelhoria;
         this.melhoria = melhoria;
         this.util = util;
         this.feita = feita;
         this.idPop = idPop;
         this.idUsuario = idUsuario;
+        this.excluido = excluido;
     }
-   
+
+    
+
     public int getIdMelhoria() {
         return idMelhoria;
     }
@@ -74,5 +86,5 @@ public class Melhoria {
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
-        
+
 }

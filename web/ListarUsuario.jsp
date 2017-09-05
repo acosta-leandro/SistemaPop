@@ -63,7 +63,7 @@
                         <% } else {%>
                         <td><%= "Administrador"%> </td>        
                         <%}%>
-                        <% if (usuario.getPermissao().equals("U")) {%>
+                        <% if (usuario.getPermissao().equals("A")) {%>
                         <td><a OnClick="return confirm('Promover para Revisor?')" href="/SistemaPop/Acao?tipo=usuario&operacao=tRevisor&idusuario=<%= usuario.getIdUsuario()%>">Tornar Revisor</a> </td>
                         <% } else if (usuario.getPermissao().equals("R")) {%>
                         <td><a OnClick="return confirm('Promover para Administrador')" href="/SistemaPop/Acao?tipo=usuario&operacao=tAdm&idusuario=<%= usuario.getIdUsuario()%>">Tornar Administrador</a> </td>
