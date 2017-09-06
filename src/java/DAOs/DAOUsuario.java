@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
-
+ *
  */
 public class DAOUsuario {
 
@@ -33,7 +33,7 @@ public class DAOUsuario {
                     + " 1,"
                     + "'U')";
 
-           st.execute(sql);
+            st.execute(sql);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -179,7 +179,7 @@ public class DAOUsuario {
 
         return usuarios;
     }
-    
+
     public ArrayList<Usuario> consultarTodosRevisoresAtivos() {
 
         ResultSet resultado;
@@ -212,7 +212,7 @@ public class DAOUsuario {
 
         return usuarios;
     }
-    
+
     public Usuario consultar(int id) {
         ResultSet resultado;
         Usuario usuario = new Usuario(0, "", "", "", "", true, 0, "");
@@ -234,7 +234,7 @@ public class DAOUsuario {
         }
         return usuario;
     }
-    
+
     public String consultarNome(String id) {
         ResultSet resultado;
         Usuario usuario = new Usuario(0, "", "", "", "", true, 0, "");
@@ -255,5 +255,48 @@ public class DAOUsuario {
             JOptionPane.showMessageDialog(null, "Erro ao consultar usuário: " + e);
         }
         return usuario.getNome();
+    }
+
+    public void atualizar(Usuario user) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE usuario SET "
+                    + "login = '" + user.getLogin() + "', "
+                    + "senha = '" + user.getSenha() + "', "
+                    + "nome = '" + user.getNome() + "', "
+                    + "email = '" + user.getEmail() + "', "
+                    + "ativo = " + user.isAtivo() + ", "
+                    + "idarea = " + user.getIdArea() + ", "
+                    + "permissao = '" + user.getPermissao() + "' "
+                    + "WHERE idusuario = " + user.getIdUsuario() + "";
+
+            st.executeUpdate(sql);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    public Usuario consultarId(int id) {
+        ResultSet resultado;
+        Usuario usuario = new Usuario(0, "", "", "", "", true, 0, "");
+        String sql = "SELECT * FROM usuario WHERE idUsuario = '" + id + "'";
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+            if (resultado.next()) {
+                usuario.setIdUsuario(resultado.getInt("idusuario"));
+                usuario.setLogin(resultado.getString("login"));
+                usuario.setSenha(resultado.getString("senha"));
+                usuario.setNome(resultado.getString("nome"));
+                usuario.setEmail(resultado.getString("email"));
+                usuario.setAtivo(resultado.getBoolean("ativo"));
+                usuario.setIdArea(resultado.getInt("idarea"));
+                usuario.setPermissao(resultado.getString("permissao"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar usuário: " + e);
+        }
+        return usuario;
     }
 }

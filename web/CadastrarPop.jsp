@@ -25,7 +25,7 @@
         <%@include file="Menu.jsp"%>
         <%            DAOPop daoPop = new DAOPop();
             DAOArea daoArea = new DAOArea();
-            Pop pop = (Pop) request.getAttribute("topico");
+            Pop pop = (Pop) request.getAttribute("pop");
             Usuario userLogado = (Usuario) session.getAttribute("usuarioLogado");
             // ArrayList<Pop> pops = (ArrayList<Pop>) request.getAttribute("consulta");
             ArrayList<Pop> pops = new ArrayList<Pop>();
@@ -38,8 +38,6 @@
             if (pop == null) {
                 pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 1, true, false);
             } else {
-                // if(daoPop.getTopicosPai(pop.getIdPop()).isEmpty() == false){
-                //   checados = daoPop.getTopicosPai(pop.getIdPop());
             }
 
 

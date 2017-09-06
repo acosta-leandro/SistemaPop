@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Menu
-    Created on : 23/08/2016, 20:44:25
-    Author     : Cláudia
---%>
-
 <%@page import="Classes.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -60,14 +54,18 @@
                                 </ul>
                             </li>
 
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Melhoria <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                          <li role="separator" class="divider"></li>
+                                    <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">Listar</li>
                                     <li><a href="ListarMelhoria.jsp">Todas</a></li>
                                 </ul>
                             </li>
+
+
+
                             <%                                    //    if (l.getPermissao().equalsIgnoreCase("A")) {
                             %>
                             <li><a href="ListarUsuario.jsp">Usuários</a></li>         
@@ -78,8 +76,16 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
 
-                            <li class="active"><a>  Olá <%=userLogado.getNome()%>  </a></li> 
-                            <li><a OnClick="return confirm('Confirma Logout?')" href="/SistemaPop/Acao?tipo=login&operacao=logout">  Logout</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Olá <%=userLogado.getNome()%>  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/SistemaPop/Acao?tipo=usuario&operacao=editar&idusuario=<%=userLogado.getIdUsuario()%>">Editar Usuário</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li class="dropdown-header"></li>
+                                    <li><a OnClick="return confirm('Confirma Logout?')" href="/SistemaPop/Acao?tipo=usuario&operacao=logout">Logout</a></li>
+                                </ul>
+                            </li>
+                            
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->

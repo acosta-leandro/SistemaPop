@@ -42,7 +42,6 @@
                         <td>Permissão</td>
                         <td>Alterar Permissão</td>
                         <td>Estado</td>
-                        <td></td>
                     </tr>
                     <%
                         for (int i = 0; i < logins.size(); i++) {
@@ -74,9 +73,8 @@
                         <td><a OnClick="return confirm('Deseja desativar?')" href="/SistemaPop/Acao?tipo=usuario&operacao=desativar&idusuario=<%= usuario.getIdUsuario()%>">Desativar</a> </td>
                         <% } else {%>
                         <td><a OnClick="return confirm('Deseja ativar?')" href="/SistemaPop/Acao?tipo=usuario&operacao=ativar&idusuario=<%= usuario.getIdUsuario()%>">Ativar</a> </td>
-                        <% }
-                            }
-                        %>
+                        <% }%>
+                        <%  }                        %>
                     </tr>
                 </table>
                 <%

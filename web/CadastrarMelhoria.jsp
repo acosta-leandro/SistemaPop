@@ -1,9 +1,3 @@
-<%-- 
-    Document   : NovoComentario
-    Created on : 24/10/2016, 13:41:39
-    Author     : Cláudia
---%>
-
 <%@page import="Classes.Melhoria"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

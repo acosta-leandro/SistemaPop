@@ -1,9 +1,3 @@
-<%-- 
-    Document   : ListaUsuarios
-    Created on : 13/10/2016, 19:22:53
-    Author     : Cláudia
---%>
-
 <%@page import="Classes.Area"%>
 <%@page import="DAOs.DAOArea"%>
 <%@page import="java.util.ArrayList"%>
@@ -17,7 +11,7 @@
     <body>
         <%@include file="Menu.jsp" %>
         <div class="container">
-            <h1>Lista de Usuários</h1>
+            <h1>Áreas</h1>
 
             <%                String notificacao = (String) request.getAttribute("notificacao");
                 ArrayList<Area> logins = (ArrayList<Area>) request.getAttribute("consulta");
@@ -31,16 +25,6 @@
                     <%
                         }
                     %>
-
-            <form action="/SistemaTopicos/Acao?tipo=area&operacao=listarArea" method="post" class="form-inline">
-                <div class="form-group">
-                    <input type="text" class="form-control input-lg" name="consulta" placeholder="Insira um termo presente no nome de usuário">
-                    <button type="submit" class="btn btn-lg">Pesquisar</button>
-                </div>
-            </form>
-            <br>
-
-
             <div class="table-responsive">
                 <table class="table table-bordered table-condensed">
                     <tr>
@@ -57,7 +41,7 @@
                     <tr>
                         <td><%= area.getIdArea()%> </td>
                         <td><%= area.getDescricao()%> </td>
-                        <td><a OnClick="return confirm('Confirma Operação?')" href="/SistemaPop/Acao?tipo=area&operacao=editar&idarea=<%= area.getIdArea()%>">Editar</a> </td>
+                        <td><a href="/SistemaPop/Acao?tipo=area&operacao=editar&idarea=<%= area.getIdArea()%>">Editar</a> </td>
                         <td><a OnClick="return confirm('Confirma Exclusão?')" href="/SistemaPop/Acao?tipo=area&operacao=excluir&idarea=<%= area.getIdArea()%>">Excluir</a> </td>
                     </tr>
                     <%

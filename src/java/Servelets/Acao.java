@@ -106,7 +106,10 @@ public class Acao extends HttpServlet {
 
         if (requisicao.getParameter("tipo").equalsIgnoreCase("usuario")) {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("cadastrarLogin")) {
-                cadastrarLogin();
+                cadastrarUsuario();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("editar")) {
+                editarUsuario();
             }
             if (requisicao.getParameter("operacao").equalsIgnoreCase("login")) {
                 login();
@@ -133,7 +136,7 @@ public class Acao extends HttpServlet {
         }
         if (requisicao.getParameter("tipo").equalsIgnoreCase("area")) {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("cadastrarArea")) {
-                area();
+                cadastrarArea();
             }
             if (requisicao.getParameter("operacao").equalsIgnoreCase("listarArea")) {
                 listarArea();
@@ -192,15 +195,22 @@ public class Acao extends HttpServlet {
     }
     //-> LOGIN
 
-    private void cadastrarLogin() {
+    private void cadastrarUsuario() {
         int idArea;
         if (requisicao.getParameter("idArea") == null) {
             idArea = 1;
         } else {
             idArea = Integer.valueOf(requisicao.getParameter("idArea"));
         }
+        int idUsuario;
+        if (requisicao.getParameter("idusuario") == null) {
+            idUsuario = 0;
+        } else {
+            idUsuario = Integer.valueOf(requisicao.getParameter("idusuario"));
+        }
 
-        Usuario user = new Usuario(0,
+        Usuario user = new Usuario(
+                idUsuario,
                 requisicao.getParameter("login"),
                 requisicao.getParameter("senha"),
                 requisicao.getParameter("nome"),
@@ -209,39 +219,35 @@ public class Acao extends HttpServlet {
                 idArea,
                 requisicao.getParameter("permissao"));
 
-        //Checa o se há erro
+        //VALIDAR CAMPOS
         if (daoUsuario.consultaEmail(requisicao.getParameter("usuario")).getIdUsuario() != 0
                 || requisicao.getParameter("login").isEmpty() == true
                 || (requisicao.getParameter("senha").equals(requisicao.getParameter("senhacheck"))) == false
                 || requisicao.getParameter("senha").isEmpty() == true || requisicao.getParameter("senhacheck").isEmpty() == true
-                || daoUsuario.consultaEmail(requisicao.getParameter("email")).getIdUsuario() != 0
+                || requisicao.getParameter("email").isEmpty() == true
                 || requisicao.getParameter("email").isEmpty() == true) {
 
             ArrayList<String> erros = new ArrayList<>();
             String erro = "";
 
             if (daoUsuario.consultaEmail(requisicao.getParameter("usuario")).getIdUsuario() != 0) {
-                erro = "- Usuário ja cadastrado no sistema";
+                erro = "- Usuário já cadastrado";
                 erros.add(erro);
             }
             if (requisicao.getParameter("login").isEmpty() == true) {
-                erro = "- Campo login não preenchido";
+                erro = "- Login em branco";
                 erros.add(erro);
             }
             if ((requisicao.getParameter("senha").equals(requisicao.getParameter("senhacheck"))) == false) {
-                erro = "- Senhas incoerentes";
+                erro = "- Senhas diferentes";
                 erros.add(erro);
             }
             if (requisicao.getParameter("senha").isEmpty() == true || requisicao.getParameter("senhacheck").isEmpty() == true) {
-                erro = "- Campo(s) de senha não preenchido(s)";
-                erros.add(erro);
-            }
-            if (daoUsuario.consultaEmail(requisicao.getParameter("email")).getIdUsuario() != 0) {
-                erro = "- E-mail já cadastrado no sistema";
+                erro = "- Senhas vazias";
                 erros.add(erro);
             }
             if (requisicao.getParameter("email").isEmpty() == true) {
-                erro = "- Campo e-mail não preenchido";
+                erro = "- E-mail vazio";
                 erros.add(erro);
             }
 
@@ -250,25 +256,37 @@ public class Acao extends HttpServlet {
             encaminharPagina("CadastrarUsuario.jsp");
 
         } else {
-            daoUsuario.cadastrar(user);
-            String notificacao = "Cadastro feito com sucesso";
-            requisicao.setAttribute("notificacao", notificacao);
-            requisicao.setAttribute("paginaRetorno", "cadastrarLogin");
-            encaminharPagina("index.jsp");
+            if (user.getIdUsuario() == 0) {
+                daoUsuario.cadastrar(user);
+                String notificacao = "Usuário cadastrado";
+                requisicao.setAttribute("notificacao", notificacao);
+                requisicao.setAttribute("paginaRetorno", "cadastrarLogin");
+                encaminharPagina("index.jsp");
+            } else {
+                daoUsuario.atualizar(user);
+                String notificacao = "Usuário editado";
+                requisicao.setAttribute("notificacao", notificacao);
+                requisicao.setAttribute("paginaRetorno", "cadastrarLogin");
+                encaminharPagina("index.jsp");
+            }
+        }
+    }
+
+    private void editarUsuario() {
+        Usuario usuario = daoUsuario.consultarId(Integer.parseInt(requisicao.getParameter("idusuario")));
+        if (usuario.getIdArea() != 0) {
+            requisicao.setAttribute("usuario", usuario);
+            encaminharPagina("CadastrarUsuario.jsp");
+        } else {
+            System.out.println("Erro ao editar Usuário");
         }
     }
 
     //-> AREA
-    private void area() {
-        Area area = new Area(0,
+    private void cadastrarArea() {
+        Area area = new Area(Integer.valueOf(requisicao.getParameter("idArea")),
                 requisicao.getParameter("descricao"),
                 true);
-//        //Checa o se há erro
-//        if (requisicao.getParameter("descricao").isEmpty()) {
-//            String erro = "Descrição Vazia";
-//            System.out.println(erro);
-//    //        encaminharPagina("Home.jsp");
-//        } else 
         if (area.getIdArea() == 0) {
             daoArea.salvar(area);
             String notificacao = "Area cadastrada com sucesso";
@@ -298,7 +316,7 @@ public class Acao extends HttpServlet {
             requisicao.setAttribute("area", area);
             encaminharPagina("CadastrarArea.jsp");
         } else {
-            System.out.println("Erro ao editar topico");
+            System.out.println("Erro ao editar Pop");
         }
     }
 
@@ -315,8 +333,9 @@ public class Acao extends HttpServlet {
     private void login() {
         Usuario usuario = daoUsuario.login(requisicao.getParameter("login"), requisicao.getParameter("senha"));
 
-        if (usuario.getIdUsuario() != 0) {
-
+        if (usuario.getIdUsuario() != 0
+                && requisicao.getParameter("login").equals(usuario.getLogin())
+                && requisicao.getParameter("senha").equals(usuario.getSenha())) {
             HttpSession sessao = requisicao.getSession();
             sessao.setAttribute("usuarioLogado", usuario);
             requisicao.setAttribute("paginaRetorno", "logar");

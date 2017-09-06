@@ -67,10 +67,10 @@ public class DAOArea {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
             String sql = "UPDATE area SET "
-                    + "area = '" + area.getDescricao() + "',"
-                    + "WHERE idarea = '" + area.getIdArea() + "'";
+                    + "area = '" + area.getDescricao() + "' "
+                    + "WHERE idarea = " + area.getIdArea() + "";
 
-            int resultado = st.executeUpdate(sql);
+            st.executeUpdate(sql);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);

@@ -1,8 +1,3 @@
-<%-- 
-Leandro Acosta
---%>
-
-
 <%@page import="Apoio.Formatacao"%>
 <%@page import="DAOs.DAOUsuario"%>
 <%@page import="Classes.Pop"%>
@@ -22,12 +17,12 @@ Leandro Acosta
             <h1>Tópicos Recentes </h1>
 
             <%                String notificacao = (String) request.getAttribute("notificacao");
-                ArrayList<Pop> topicos = new DAOPop().consultarTodos();
+                ArrayList<Pop> pops = new DAOPop().consultarTodos();
                 Usuario l = (Usuario) session.getAttribute("usuarioLogado");
-                DAOPop daofbtopico = new DAOPop();
+                DAOPop daofbpop = new DAOPop();
 
-                if (topicos == null) {
-                    topicos = new DAOPop().consultarTodos();
+                if (pops == null) {
+                    pops = new DAOPop().consultarTodos();
                 }
 
             %>  
@@ -38,7 +33,7 @@ Leandro Acosta
                     <%
                         }
                     %>
-            <form action="/SistemaPops/Acao?tipo=topico&operacao=constopico&tipoConsulta=2&pagina=PopsRecentes" method="post" class="form-inline">
+            <form action="/SistemaPops/Acao?tipo=pop&operacao=conspop&tipoConsulta=2&pagina=PopsRecentes" method="post" class="form-inline">
                 <div class="form-group">
                     <input type="text" class="form-control input-lg" name="consulta" placeholder="Insira algum texto presente no tópico">
                 </div>
@@ -48,14 +43,14 @@ Leandro Acosta
             <br>
 
             <%
-                for (int i = 0; i < topicos.size(); i++) {
-                    Pop pop = (Pop) topicos.get(i);
+                for (int i = 0; i < pops.size(); i++) {
+                    Pop pop = (Pop) pops.get(i);
 
-                    //    ArrayList<Integer> pais = new DAORelPop().getPopsPai(t.getIdtopico());
+                    //    ArrayList<Integer> pais = new DAORelPop().getPopsPai(t.getIdpop());
 
             %>        
 
-            <input type="hidden" name="idtopicopai" value="<%= pop.getIdPop()%>">
+            <input type="hidden" name="idpoppai" value="<%= pop.getIdPop()%>">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><%= "V" + pop.getVersao() + " - " + pop.getTitulo()%>  
@@ -79,7 +74,7 @@ Leandro Acosta
                     <%
                         if (pop.getIdCriador() == l.getIdUsuario()) {
                     %>                   
-                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=topico&operacao=editopico&id=<%=pop.getIdPop()%>" method="post">Atualizar</a>                   
+                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=edipop&id=<%=pop.getIdPop()%>" method="post">Atualizar</a>                   
                     <%
                         }
                     %>

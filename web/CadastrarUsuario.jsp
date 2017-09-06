@@ -1,7 +1,3 @@
-<%-- 
-LEANDRO
---%>
-
 <%@page import="java.util.ArrayList"%>
 <%@page import="Classes.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

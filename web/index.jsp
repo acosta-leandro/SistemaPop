@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : 16/08/2016, 20:41:14
-    Author     : Cláudia
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

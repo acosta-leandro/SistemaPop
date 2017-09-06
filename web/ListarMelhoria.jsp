@@ -1,8 +1,3 @@
-<%-- 
-Leandro Acosta
---%>
-
-
 <%@page import="Classes.Melhoria"%>
 <%@page import="DAOs.DAOMelhoria"%>
 <%@page import="Apoio.Formatacao"%>
@@ -27,7 +22,7 @@ Leandro Acosta
                 ArrayList<Melhoria> melhorias = (ArrayList<Melhoria>) request.getAttribute("melhorias");
                 Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
                 Pop pop;
-                DAOPop daofbtopico = new DAOPop();
+                DAOPop daofbpop = new DAOPop();
 
                 if (melhorias == null) {
                     melhorias = new DAOMelhoria().consultarTodos();
@@ -41,7 +36,7 @@ Leandro Acosta
                     <%
                         }
                     %>
-            <form action="/SistemaPops/Acao?tipo=topico&operacao=constopico&tipoConsulta=2&pagina=PopsRecentes" method="post" class="form-inline">
+            <form action="/SistemaPops/Acao?tipo=pop&operacao=conspop&tipoConsulta=2&pagina=PopsRecentes" method="post" class="form-inline">
                 <div class="form-group">
                     <input type="text" class="form-control input-lg" name="consulta" placeholder="Insira algum texto presente no tópico">
                 </div>
@@ -54,7 +49,7 @@ Leandro Acosta
                 for (int i = 0; i < melhorias.size(); i++) {
                     Melhoria melhoria = (Melhoria) melhorias.get(i);
                     pop = new DAOPop().consultarId(melhoria.getIdPop());
-                    //    ArrayList<Integer> pais = new DAORelPop().getPopsPai(t.getIdtopico());
+                    //    ArrayList<Integer> pais = new DAORelPop().getPopsPai(t.getIdpop());
 
             %>        
 

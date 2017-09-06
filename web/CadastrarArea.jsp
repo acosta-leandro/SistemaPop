@@ -1,7 +1,3 @@
-<%-- 
-LEANDRO
---%>
-
 <%@page import="java.util.ArrayList"%>
 <%@page import="Classes.Usuario"%>
 <%@page import="Classes.Area"%>
@@ -28,7 +24,7 @@ LEANDRO
         %>
 
         <form action="/SistemaPop/Acao?tipo=area&operacao=cadastrarArea" method="post" class="form-signin">
-            <h2 class="form-signin-heading">Cadastro de Areas</h2>
+            <h2 class="form-signin-heading">Cadastro de Área</h2>
 
             <%                String s = "";
                 if (erros != null) {
@@ -40,7 +36,8 @@ LEANDRO
                         }
                     %>
             <label></label>
-            <input type="text" name="descricao" class="form-control" placeholder="Area*" value="<%=area.getDescricao()%>">
+            <input type="hidden" name="idArea" class="form-control" placeholder="Id*" value="<%=area.getIdArea()%>">
+            <input type="text" name="descricao" class="form-control" placeholder="Descrição*" value="<%=area.getDescricao()%>">
 
             <br>
             <input class="btn btn-lg btn-primary btn-block" name="" type="submit" value="Salvar">
