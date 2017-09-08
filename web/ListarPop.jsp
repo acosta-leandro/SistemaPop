@@ -54,7 +54,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><%= "V" + pop.getVersao() + " - " + pop.getTitulo()%>  
-                        <a class="btn btn-default" href="/SistemaPop/Acao?tipo=filhos&id=<%=pop.getIdPop()%>&toriginal=<%=pop.getIdPop()%>" method="post">Visualizar</a>     
+                        <a class="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=visualizarPop&idPop=<%= pop.getIdPop()%>">Visualizar</a>    
                     </h3>
                 </div>
 
@@ -63,18 +63,16 @@
                 </div>
                 <div class="panel-footer">    
                     <%
-                        if (pop.getVersao() != 1) {
+                        if (pop.getVersao() != 1 && pop.isUltimaVersao()) {
                     %>
-                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=filhos&id=<%=pop.getIdPop()%>&toriginal=<%=pop.getIdPop()%>" method="post">Anteriores</a>     
+                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=filhos&id=<%=pop.getIdPop()%>&toriginal=<%=pop.getIdPop()%>">Anteriores</a>     
                     <%
                         }
-                    %>
-                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=melhoria&operacao=proporMelhoria&idPop=<%=pop.getIdPop()%>" method="post">Propor Melhorias</a>                   
+                        if (pop.getIdCriador() == l.getIdUsuario() && pop.isUltimaVersao()) {
+                    %>  
+                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=melhoria&operacao=proporMelhoria&idPop=<%=pop.getIdPop()%>">Propor Melhorias</a>                   
 
-                    <%
-                        if (pop.getIdCriador() == l.getIdUsuario()) {
-                    %>                   
-                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=edipop&id=<%=pop.getIdPop()%>" method="post">Atualizar</a>                   
+                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=editarPop&idPop=<%=pop.getIdPop()%>">Atualizar</a>                   
                     <%
                         }
                     %>
@@ -82,10 +80,15 @@
                     <%
                         if (pop.getIdCriador() == l.getIdUsuario() || l.getPermissao().equalsIgnoreCase("A")) {
                     %>
-                    <a class ="btn btn-default" OnClick="return confirm('Deseja excluir?')" href="/SistemaPop/Acao?tipo=pop&operacao=excluirPop&idPop=<%=pop.getIdPop()%>" method="post">Excluir</a>         
-                    <a class ="btn btn-default" OnClick="return confirm('Deseja excluir TODAS as versões?')" href="/SistemaPop/Acao?tipo=pop&operacao=excluirTodosPopsAnteriores&idPop=<%=pop.getIdPop()%>" method="post">Excluir Todas Versões</a>         
+                    <a class ="btn btn-default" OnClick="return confirm('Deseja excluir?')" href="/SistemaPop/Acao?tipo=pop&operacao=excluirPop&idPop=<%=pop.getIdPop()%>" >Excluir</a>         
+                    <%
+                        if (pop.isUltimaVersao()) {
+                    %>
+
+                    <a class ="btn btn-default" OnClick="return confirm('Deseja excluir TODAS as versões?')" href="/SistemaPop/Acao?tipo=pop&operacao=excluirTodosPopsAnteriores&idPop=<%=pop.getIdPop()%>">Excluir Todas Versões</a>         
 
                     <%
+                            }
                         }
                     %>
                 </div>

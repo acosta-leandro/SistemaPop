@@ -48,6 +48,7 @@ public class DAOMelhoria {
         try {
             resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(""
                     + "SELECT * FROM melhoria "
+                    + "WHERE excluido != 'true' "
                     + "ORDER BY 1 DESC");
 
             while (resultado.next()) {
@@ -96,7 +97,7 @@ public class DAOMelhoria {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     public void excluir(int idMelhoria) {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
@@ -112,4 +113,18 @@ public class DAOMelhoria {
         }
     }
 
+    public void atualizarIdPopMelhoria(int idPopNew, int idPopOld) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE melhoria SET "
+                    + "idPop = " + idPopNew
+                    + " WHERE idPop = " + idPopOld + "";
+
+            int resultado = st.executeUpdate(sql);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 }

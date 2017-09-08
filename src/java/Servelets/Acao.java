@@ -14,6 +14,7 @@ import DAOs.DAOArea;
 import DAOs.DAOMelhoria;
 import DAOs.DAOPop;
 import DAOs.DAOUsuario;
+import Relatorios.PrintReport;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -21,7 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -152,11 +155,17 @@ public class Acao extends HttpServlet {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("cadastrarPop")) {
                 pop();
             }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("visualizarPop")) {
+                visualizarPop();
+            }
             if (requisicao.getParameter("operacao").equalsIgnoreCase("excluirPop")) {
                 excluirPop();
             }
             if (requisicao.getParameter("operacao").equalsIgnoreCase("excluirTodosPopsAnteriores")) {
                 excluirTodosPopsAnteriores();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("editarPop")) {
+                editarPop();
             }
         }
         if (requisicao.getParameter("tipo").equalsIgnoreCase("melhoria")) {
@@ -179,7 +188,7 @@ public class Acao extends HttpServlet {
                 melhoriaFoiFeitaSim();
             }
             if (requisicao.getParameter("operacao").equalsIgnoreCase("foiFeitoNao")) {
-                melhoriaSeraFeitaNao();
+                melhoriaFoiFeitaNao();
             }
         }
     }
@@ -519,4 +528,29 @@ public class Acao extends HttpServlet {
         encaminharPagina("ListarMelhoria.jsp");
     }
 
+    private void visualizarPop() {
+        PrintReport printReport = new PrintReport();
+        Map parametros = new HashMap();
+        Pop tmpPop = daoPop.consultarId(Integer.valueOf(requisicao.getParameter("idPop")));
+        Usuario tmpAutor = daoUsuario.consultarId(tmpPop.getIdCriador());
+        Usuario tmpRevisor = daoUsuario.consultarId(tmpPop.getIdCriador());
+        parametros.put("idPop", Integer.valueOf(requisicao.getParameter("idPop")));
+        parametros.put("autor", tmpAutor.getNome());
+        parametros.put("revisor", tmpRevisor.getNome());
+        parametros.put("data", new java.text.SimpleDateFormat("dd/MM/yyyy").format(tmpPop.getDtCriacao()));
+        printReport.showReportWithParameters("Pop.jrxml", parametros);
+        String notificacao = "Pop Impresso!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("ListarPop.jsp");
+    }
+
+    private void editarPop() {
+        Pop pop = daoPop.consultarId(Integer.parseInt(requisicao.getParameter("idPop")));
+        if (pop.getIdPop() != 0) {
+            requisicao.setAttribute("pop", pop);
+            encaminharPagina("CadastrarPop.jsp");
+        } else {
+            System.out.println("Erro ao editar Pop");
+        }
+    }
 }

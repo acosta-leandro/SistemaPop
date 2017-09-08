@@ -38,9 +38,19 @@ public class DAOPop {
                     + "" + pop.getIdUpdate() + ","
                     + "" + pop.getVersao() + ","
                     + "" + pop.isUltimaVersao() + ","
-                    + "" + pop.isExcluido() + ");";
+                    + "" + pop.isExcluido() + ") RETURNING idPop;";
 
-            st.executeUpdate(sql);
+            ResultSet rs = st.executeQuery(sql);
+            int id = 0;
+
+            if (rs.next()) {
+                id = rs.getInt("idPop");
+            }
+
+            if (pop.getIdUpdate() != 0) {
+                setFalseUltimaVersao(pop.getIdUpdate());
+                new DAOMelhoria().atualizarIdPopMelhoria(id, pop.getIdUpdate());
+            }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -51,7 +61,7 @@ public class DAOPop {
 
         ResultSet resultado;
         ArrayList<Pop> pops = new ArrayList<>();
-        String sql = "SELECT * FROM pop ORDER BY 1";
+        String sql = "SELECT * FROM pop WHERE excluido != 'true' ORDER BY 1";
 
         try {
             resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
@@ -88,7 +98,7 @@ public class DAOPop {
 
         ResultSet resultado;
         Pop pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 0, true, false);
-        String sql = "SELECT * FROM pop WHERE idPop = " + id;
+        String sql = "SELECT * FROM pop WHERE idPop = " + id + "AND excluido != 'true'";
 
         try {
             resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
@@ -140,10 +150,26 @@ public class DAOPop {
         if (tmpPop.getIdUpdate() == 0) {
             excluir(idPop);
         } else {
+            excluir(idPop);
             while (tmpPop.getIdUpdate() != 0) {
                 tmpPop = consultarId(tmpPop.getIdUpdate());
                 excluir(tmpPop.getIdPop());
             }
+        }
+    }
+
+    public void setFalseUltimaVersao(int idPop) {
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            String sql = "UPDATE pop SET "
+                    + "ultimaVersao = 'false' "
+                    + "WHERE idPop = " + idPop + "";
+
+            int resultado = st.executeUpdate(sql);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 }

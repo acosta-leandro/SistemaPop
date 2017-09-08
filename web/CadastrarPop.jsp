@@ -36,35 +36,23 @@
             List revisores = new DAOUsuario().consultarTodosRevisoresAtivos();
 
             if (pop == null) {
-                pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 1, true, false);
+                pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 0, true, false);
             } else {
             }
 
 
         %>
         <div class="container">     
-            <h2>Novo POP</h2>
+            <h2>POP</h2>
             <br>
 
             <form action="/SistemaPop/Acao?tipo=pop&operacao=cadastrarPop" method="post" class="form-horizontal">            
                 <div class="form-group">               
-
-
-                    <label class="col-sm-2 control-label">Responsável:</label>
-                    <div class="col-md-8">                   
-                        <label name="nomeCriador"><%=userLogado.getNome()%></label>
-                        <br>
                         <input type="hidden" name="idCriador" value="<%= userLogado.getIdUsuario()%>">
-                        <br>
-                        <input  name="idUpdate" value="<%= pop.getIdUpdate()%>">
-                        <br>
-                        <input  name="versao" value="<%= pop.getVersao()%>">
-                        <br>
-                        <input  name="ultimaVersao" value="<%= pop.isUltimaVersao()%>">
-                        <br>
-                        <input  name="excluido" value="<%= pop.isExcluido()%>">
-
-                    </div>
+                        <input type="hidden" name="idUpdate" value="<%= pop.getIdPop()%>">
+                        <input type="hidden" name="versao" value="<%= pop.getVersao()+1%>">
+                        <input type="hidden" name="ultimaVersao" value="<%= pop.isUltimaVersao()%>">
+                        <input type="hidden" name="excluido" value="<%= pop.isExcluido()%>">
                 </div>
 
                 <div class="form-group">

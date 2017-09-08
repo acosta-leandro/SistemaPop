@@ -56,10 +56,8 @@
             <input type="hidden" name="idPop" value="<%= melhoria.getIdPop()%>">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><%= melhoria.getIdMelhoria() + " | POP - V" + pop.getVersao() + " - " + pop.getTitulo()%>  
-                        <a class="btn btn-default" OnClick="return confirm('Confirma Operação?')" href="/SistemaPop/Acao?tipo=area&operacao=editar&idarea=<%= melhoria.getIdMelhoria()%>">Visualizar Melhoria</a>     
-                        <a class="btn btn-default" OnClick="return confirm('Confirma Operação?')" href="/SistemaPop/Acao?tipo=area&operacao=editar&idarea=<%= melhoria.getIdMelhoria()%>">Visualizar Pop</a>     
-                        <a class="btn btn-default" OnClick="return confirm('Confirma Operação?')" href="/SistemaPop/Acao?tipo=area&operacao=editar&idarea=<%= melhoria.getIdMelhoria()%>">Visualizar Pop Recente</a>   
+                    <h3 class="panel-title"><%= "ID "+melhoria.getIdMelhoria() + " | V" + pop.getVersao() + " | POP " + pop.getTitulo()%>  
+                        <a class="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=visualizarPop&idPop=<%= pop.getIdPop()%>">Visualizar Pop</a>    
                         <a class="btn btn-default" OnClick="return confirm('Confirma Exclusão?')" href="/SistemaPop/Acao?tipo=melhoria&operacao=excluirMelhoria&idMelhoria=<%= melhoria.getIdMelhoria()%>">Excluir Melhoria</a>     
                     </h3>
                 </div>
@@ -73,10 +71,10 @@
                         <div class="col-md-4">Será Feito?</div>
                         <% if (melhoria.isUtil()) {%>
                         <div class="col-md-4">Sim</div>
-                        <div class="col-md-4"><a class="btn btn-default" OnClick="return confirm('Confirma Operação?')" href="/SistemaPop/Acao?tipo=melhoria&operacao=seraFeitoNao&idMelhoria=<%= melhoria.getIdMelhoria()%>">Não</a></div>
+                        <div class="col-md-4"><a class="btn btn-default" href="/SistemaPop/Acao?tipo=melhoria&operacao=seraFeitoNao&idMelhoria=<%= melhoria.getIdMelhoria()%>">Não</a></div>
                         <%} else {%>
                         <div class="col-md-4">Não</div>
-                        <div class="col-md-4"><a class="btn btn-default" OnClick="return confirm('Confirma Operação?')" href="/SistemaPop/Acao?tipo=melhoria&operacao=seraFeitoSim&idMelhoria=<%= melhoria.getIdMelhoria()%>">Sim</a></div>
+                        <div class="col-md-4"><a class="btn btn-default" href="/SistemaPop/Acao?tipo=melhoria&operacao=seraFeitoSim&idMelhoria=<%= melhoria.getIdMelhoria()%>">Sim</a></div>
                         <%}%>
                     </div> 
                     <br>
