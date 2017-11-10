@@ -1,11 +1,12 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Classes.Usuario"%>
 <%@page import="Classes.Area"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
         <title>Cadastrar Area</title>
         <link href="/SistemaPop/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="/SistemaPop/bootstrap/css/signin.css" rel="stylesheet" type="text/css"/>
@@ -24,7 +25,7 @@
         %>
 
         <form action="/SistemaPop/Acao?tipo=area&operacao=cadastrarArea" method="post" class="form-signin">
-            <h2 class="form-signin-heading">Cadastro de √Årea</h2>
+            <h2 class="form-signin-heading">Cadastro de ¡rea</h2>
 
             <%                String s = "";
                 if (erros != null) {
@@ -37,14 +38,14 @@
                     %>
             <label></label>
             <input type="hidden" name="idArea" class="form-control" placeholder="Id*" value="<%=area.getIdArea()%>">
-            <input type="text" name="descricao" class="form-control" placeholder="Descri√ß√£o*" value="<%=area.getDescricao()%>">
+            <input type="text" name="descricao" class="form-control" placeholder="DescriÁ„o*" value="<%=area.getDescricao()%>">
 
             <br>
             <input class="btn btn-lg btn-primary btn-block" name="" type="submit" value="Salvar">
 
             <br>
             <a class="btn btn-lg btn-primary btn-block" href="ListarArea.jsp">Voltar</a>
-            <h5>* = Campos obrigat√≥rios</h5>
+            <h5>* = Campos obrigatÛrios</h5>
         </form>    
     </body>
 </html>

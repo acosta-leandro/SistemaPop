@@ -1,5 +1,5 @@
 <%@page import="Classes.Melhoria"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,13 +31,13 @@
                             <%
                                 }
                             %>
-                    <label class="col-sm-2 control-label">Usu√°rio:</label>
+                    <label class="col-sm-2 control-label">Usu·rio:</label>
                     <div class="col-md-8">                   
                         <label name="usuario"><%=usuario.getNome()%></label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label  class="col-sm-2 control-label">Coment√°rio:</label>
+                    <label  class="col-sm-2 control-label">Coment·rio:</label>
                     <div class="col-md-8">
                         <textarea class="form-control" rows="3" name ="melhoria" placeholder="Insira o texto*"><%= melhoria.getMelhoria()%></textarea>
                         <input type="hidden" name="idUsuario" value="<%= usuario.getIdUsuario()%>">
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">   
                         <input class="btn btn-default" name="" type="submit" value="Salvar Melhoria">
-                        <h5>* = Campos obrigat√≥rios</h5>   
+                        <h5>* = Campos obrigatÛrios</h5>   
                     </div>                
                 </div>
 

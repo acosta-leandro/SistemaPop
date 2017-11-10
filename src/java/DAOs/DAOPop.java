@@ -61,7 +61,7 @@ public class DAOPop {
 
         ResultSet resultado;
         ArrayList<Pop> pops = new ArrayList<>();
-        String sql = "SELECT * FROM pop WHERE excluido != 'true' ORDER BY 1";
+        String sql = "SELECT * FROM pop WHERE excluido != 'true' AND ultimaversao = 'true' ORDER BY 1";
 
         try {
             resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
@@ -172,4 +172,66 @@ public class DAOPop {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+
+    public ArrayList<Pop> consultarTodosVinculados(String idPop) {
+        ArrayList<Pop> pops = new ArrayList<>();
+
+        Pop tmpPop = consultarId(Integer.valueOf(idPop));
+        pops.add(tmpPop);
+        if (tmpPop.getIdUpdate() == 0) {
+            //excluir(idPop);
+        } else {
+            pops.add(tmpPop);
+            while (tmpPop.getIdUpdate() != 0) {
+                tmpPop = consultarId(tmpPop.getIdUpdate());
+                pops.add(tmpPop);
+            }
+        }
+        return pops;
+    }
+
+    public ArrayList<Pop> pesquisar(String termo) {
+        
+        ArrayList<Pop> pops = new ArrayList<>();
+        ResultSet resultado;
+        String sql = "SELECT * FROM pop WHERE "
+                + "(titulo ILIKE '%" + termo + "%' "
+                + "OR objetivo ILIKE '%" + termo + "%'"
+                + "OR aplicacao ILIKE '%" + termo + "%'"
+                + "OR conteudo ILIKE '%" + termo + "%'"
+                + "OR divulgacao ILIKE '%" + termo + "%')"
+                + "AND excluido != 'true' AND ultimaversao = 'true'";
+
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while(resultado.next()) {
+                Pop pop = new Pop(0, "", "", "", "", "", null, null, 0, "", 0, "", 0, "", 0, 0, true, false);
+                pop.setIdPop(resultado.getInt("idpop"));
+                pop.setTitulo(resultado.getString("titulo"));
+                pop.setObjetivo(resultado.getString("objetivo"));
+                pop.setAplicacao(resultado.getString("aplicacao"));
+                pop.setConteudo(resultado.getString("conteudo"));
+                pop.setDivulgacao(resultado.getString("divulgacao"));
+                pop.setDtCriacao(resultado.getDate("dtCriacao"));
+                pop.setDtUpdate(resultado.getDate("dtUpdate"));
+                pop.setIdCriador(resultado.getInt("idCriador"));
+                pop.setNomeCriador(new DAOUsuario().consultarNome(resultado.getString("idCriador")));
+                pop.setIdArea(resultado.getInt("idArea"));
+                pop.setNomeArea(new DAOArea().consultarNome(resultado.getString("idArea")));
+                pop.setIdRevisor(resultado.getInt("idRevisor"));
+                pop.setNomeRevisor(new DAOUsuario().consultarNome(resultado.getString("idRevisor")));
+                pop.setIdUpdate(resultado.getInt("idUpdate"));
+                pop.setVersao(resultado.getInt("versao"));
+                pop.setUltimaVersao(resultado.getBoolean("ultimaversao"));
+                pop.setExcluido(resultado.getBoolean("excluido"));
+                pops.add(pop);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar pop: " + e);
+        }
+        return pops;
+
+    }
+
 }

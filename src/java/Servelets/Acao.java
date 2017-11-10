@@ -7,20 +7,25 @@ package Servelets;
 
 import Apoio.Formatacao;
 import Classes.Area;
+import Classes.Estatistica;
+import Classes.EstatisticaPesquisa;
 import Classes.Melhoria;
 import Classes.Pop;
 import Classes.Usuario;
 import DAOs.DAOArea;
+import DAOs.DAOEstatistica;
 import DAOs.DAOMelhoria;
 import DAOs.DAOPop;
 import DAOs.DAOUsuario;
 import Relatorios.PrintReport;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +51,7 @@ public class Acao extends HttpServlet {
     DAOArea daoArea = new DAOArea();
     DAOPop daoPop = new DAOPop();
     DAOMelhoria daoMelhoria = new DAOMelhoria();
+    DAOEstatistica daoEstatistica = new DAOEstatistica();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -167,6 +173,12 @@ public class Acao extends HttpServlet {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("editarPop")) {
                 editarPop();
             }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("listarAnterioresPop")) {
+                listarAnterioresPop();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("pesquisarPop")) {
+                pesquisarPop();
+            }
         }
         if (requisicao.getParameter("tipo").equalsIgnoreCase("melhoria")) {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("cadastrarMelhoria")) {
@@ -190,6 +202,20 @@ public class Acao extends HttpServlet {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("foiFeitoNao")) {
                 melhoriaFoiFeitaNao();
             }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("pesquisarMelhoria")) {
+                pesquisarMelhoria();
+            }
+        }
+        if (requisicao.getParameter("tipo").equalsIgnoreCase("relatorio")) {
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("MelhoriasPorPop")) {
+                MelhoriasPorPop();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("PopPorUsuario")) {
+                PopPorUsuario();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("PopAnteriores")) {
+                PopAnteriores();
+            }
         }
     }
 
@@ -204,7 +230,8 @@ public class Acao extends HttpServlet {
     }
     //-> LOGIN
 
-    private void cadastrarUsuario() {
+    private void cadastrarUsuario() throws UnsupportedEncodingException {
+        requisicao.setCharacterEncoding("UTF-8");
         int idArea;
         if (requisicao.getParameter("idArea") == null) {
             idArea = 1;
@@ -281,7 +308,8 @@ public class Acao extends HttpServlet {
         }
     }
 
-    private void editarUsuario() {
+    private void editarUsuario() throws UnsupportedEncodingException {
+        requisicao.setCharacterEncoding("UTF-8");
         Usuario usuario = daoUsuario.consultarId(Integer.parseInt(requisicao.getParameter("idusuario")));
         if (usuario.getIdArea() != 0) {
             requisicao.setAttribute("usuario", usuario);
@@ -292,18 +320,29 @@ public class Acao extends HttpServlet {
     }
 
     //-> AREA
-    private void cadastrarArea() {
+    private void cadastrarArea() throws UnsupportedEncodingException {
+        requisicao.setCharacterEncoding("UTF-8");
         Area area = new Area(Integer.valueOf(requisicao.getParameter("idArea")),
                 requisicao.getParameter("descricao"),
                 true);
-        if (area.getIdArea() == 0) {
-            daoArea.salvar(area);
-            String notificacao = "Area cadastrada com sucesso";
-            encaminharPagina("ListarArea.jsp");
+
+        if (requisicao.getParameter("descricao").isEmpty() == true) {
+            ArrayList<String> erros = new ArrayList<>();
+            String erro = "Preencha Descrição";
+            erros.add(erro);
+            requisicao.setAttribute("erro", erros);
+            requisicao.setAttribute("area", area);
+            encaminharPagina("CadastrarArea.jsp");
         } else {
-            daoArea.atualizar(area);
-            String notificacao = "Area editada com sucesso";
-            encaminharPagina("ListarArea.jsp");
+            if (area.getIdArea() == 0) {
+                daoArea.salvar(area);
+                String notificacao = "Area cadastrada com sucesso";
+                encaminharPagina("ListarArea.jsp");
+            } else {
+                daoArea.atualizar(area);
+                String notificacao = "Area editada com sucesso";
+                encaminharPagina("ListarArea.jsp");
+            }
         }
     }
 
@@ -318,8 +357,8 @@ public class Acao extends HttpServlet {
         encaminharPagina("ListarArea.jsp");
     }
 
-    private void editarArea() {
-
+    private void editarArea() throws UnsupportedEncodingException {
+        requisicao.setCharacterEncoding("UTF-8");
         Area area = daoArea.consultarId(Integer.parseInt(requisicao.getParameter("idarea")));
         if (area.getIdArea() != 0) {
             requisicao.setAttribute("area", area);
@@ -339,7 +378,8 @@ public class Acao extends HttpServlet {
         }
     }
 
-    private void login() {
+    private void login() throws UnsupportedEncodingException {
+        requisicao.setCharacterEncoding("UTF-8");
         Usuario usuario = daoUsuario.login(requisicao.getParameter("login"), requisicao.getParameter("senha"));
 
         if (usuario.getIdUsuario() != 0
@@ -357,7 +397,8 @@ public class Acao extends HttpServlet {
         }
     }
 
-    private void pop() {
+    private void pop() throws UnsupportedEncodingException {
+        requisicao.setCharacterEncoding("UTF-8");
         Date dtCriacao;
         Date dtUpdate;
         if (requisicao.getParameter("dtCriacao") == null) {
@@ -377,7 +418,7 @@ public class Acao extends HttpServlet {
         } else {
             dtUpdate = Date.valueOf(requisicao.getParameter("dtUpdate"));
         }
-
+        requisicao.setCharacterEncoding("UTF-8");
         Pop pop = new Pop(0,
                 requisicao.getParameter("titulo"),
                 requisicao.getParameter("objetivo"),
@@ -411,7 +452,8 @@ public class Acao extends HttpServlet {
         encaminharPagina("index.jsp");
     }
 
-    private void ativar() {
+    private void ativar() throws UnsupportedEncodingException {
+        requisicao.setCharacterEncoding("UTF-8");
         daoUsuario.ativarDesativar(Integer.parseInt(requisicao.getParameter("idusuario")), true);
         String notificacao = "Usuário Ativado";
         requisicao.setAttribute("notificacao", notificacao);
@@ -447,7 +489,8 @@ public class Acao extends HttpServlet {
     }
 
     //-> Melhoria
-    private void cadastrarMelhoria() {
+    private void cadastrarMelhoria() throws UnsupportedEncodingException {
+        requisicao.setCharacterEncoding("UTF-8");
         Melhoria melhoria = new Melhoria(0,
                 requisicao.getParameter("melhoria"),
                 Boolean.valueOf(requisicao.getParameter("util")),
@@ -529,6 +572,14 @@ public class Acao extends HttpServlet {
     }
 
     private void visualizarPop() {
+
+        Estatistica tmpEst = new Estatistica(0,
+                Integer.valueOf(requisicao.getParameter("idPop")),
+                "a",
+                null,
+                Integer.valueOf(requisicao.getParameter("idUser")));
+        new DAOEstatistica().salvarVisualizacao(tmpEst);
+
         PrintReport printReport = new PrintReport();
         Map parametros = new HashMap();
         Pop tmpPop = daoPop.consultarId(Integer.valueOf(requisicao.getParameter("idPop")));
@@ -552,5 +603,68 @@ public class Acao extends HttpServlet {
         } else {
             System.out.println("Erro ao editar Pop");
         }
+    }
+
+    private void listarAnterioresPop() {
+        requisicao.setAttribute("idPop", requisicao.getParameter("idPop"));
+        encaminharPagina("ListarAnterioresPop.jsp");
+    }
+
+    private void pesquisarPop() {
+        //pesquisa somente nos não-excluidos e ultima versao
+        ArrayList<Pop> pops = daoPop.pesquisar(requisicao.getParameter("consulta"));
+        EstatisticaPesquisa estPesq = daoEstatistica.returnEstatisticaPesquisa(requisicao.getParameter("consulta"));
+        requisicao.setAttribute("pops", pops);
+        requisicao.setAttribute("estPesq", estPesq);
+        encaminharPagina("PesquisarPop.jsp");
+    }
+
+    private void pesquisarMelhoria() {
+        ArrayList<Melhoria> melhorias = null;
+        int popSelecionado = 0;
+        if (!requisicao.getParameter("popSelecionado").equals("Todos")) {
+            popSelecionado = Integer.valueOf(requisicao.getParameter("popSelecionado"));
+        }
+        if (popSelecionado == 0 && requisicao.getParameter("consulta").isEmpty()) {
+            melhorias = daoMelhoria.consultarTodos();
+        } else if (popSelecionado != 0 && !requisicao.getParameter("consulta").isEmpty()) {
+            melhorias = daoMelhoria.pesquisarComPopId(requisicao.getParameter("consulta"), Integer.valueOf(requisicao.getParameter("popSelecionado")));
+        } else if (popSelecionado == 0 && !requisicao.getParameter("consulta").isEmpty()) {
+            melhorias = daoMelhoria.pesquisar(requisicao.getParameter("consulta"));
+        } else if (popSelecionado != 0 && requisicao.getParameter("consulta").isEmpty()) {
+            melhorias = daoMelhoria.pesquisarPopId(Integer.valueOf(requisicao.getParameter("popSelecionado")));
+        }
+        requisicao.setAttribute("melhorias", melhorias);
+        encaminharPagina("ListarMelhoria.jsp");
+    }
+
+    private void MelhoriasPorPop() {
+        PrintReport printReport = new PrintReport();
+        Map parametros = new HashMap();
+        parametros.put("idPop", Integer.valueOf(requisicao.getParameter("idPop")));
+        printReport.showReportWithParameters("MelhoriasPorPop.jrxml", parametros);
+        String notificacao = "MelhoriasPorPop Impresso!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("MelhoriasPorPop.jsp");
+    }
+
+    private void PopPorUsuario() {
+        PrintReport printReport = new PrintReport();
+        Map parametros = new HashMap();
+        parametros.put("idUser", Integer.valueOf(requisicao.getParameter("idUser")));
+        printReport.showReportWithParameters("PopPorUsuario.jrxml", parametros);
+        String notificacao = "Pop por Usuário Impresso!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("PopPorUsuario.jsp");
+    }
+
+    private void PopAnteriores() {
+        PrintReport printReport = new PrintReport();
+        Map parametros = new HashMap();
+        parametros.put("idPop", Integer.valueOf(requisicao.getParameter("idPop")));
+        printReport.showReportWithParameters("PopAnteriores.jrxml", parametros);
+        String notificacao = "Pop Anteriores Impresso!";
+        requisicao.setAttribute("notificacao", notificacao);
+        encaminharPagina("PopAnteriores.jsp");
     }
 }

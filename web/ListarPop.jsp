@@ -3,18 +3,18 @@
 <%@page import="Classes.Pop"%>
 <%@page import="DAOs.DAOPop"%>
 <%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Tópicos Recentes</title>
+        <title>Pop Recentes</title>
 
     </head>
     <body>
         <%@include file="Menu.jsp" %>
         <div class="container">           
-            <h1>Tópicos Recentes </h1>
+            <h1>Pop Recentes </h1>
 
             <%                String notificacao = (String) request.getAttribute("notificacao");
                 ArrayList<Pop> pops = new DAOPop().consultarTodos();
@@ -33,13 +33,12 @@
                     <%
                         }
                     %>
-            <form action="/SistemaPops/Acao?tipo=pop&operacao=conspop&tipoConsulta=2&pagina=PopsRecentes" method="post" class="form-inline">
+            <form action="/SistemaPop/Acao?tipo=pop&operacao=pesquisarPop" method="post" class="form-inline">
                 <div class="form-group">
-                    <input type="text" class="form-control input-lg" name="consulta" placeholder="Insira algum texto presente no tópico">
+                    <input type="text" class="form-control input-lg" name="consulta">
                 </div>
                 <button type="submit" class="btn btn-lg">Pesquisar</button>
             </form>
-            <h5>DICA: Depois de qualquer consulta feita no site, clique no botão pesquisar, sem preencher o campo de pesquisa, para a tela sair do modo de pesquisa.</h5>
             <br>
 
             <%
@@ -54,7 +53,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><%= "V" + pop.getVersao() + " - " + pop.getTitulo()%>  
-                        <a class="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=visualizarPop&idPop=<%= pop.getIdPop()%>">Visualizar</a>    
+                        <a class="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=visualizarPop&idPop=<%= pop.getIdPop()%>&idUser=<%= l.getIdUsuario()%>">Visualizar</a>    
                     </h3>
                 </div>
 
@@ -65,7 +64,7 @@
                     <%
                         if (pop.getVersao() != 1 && pop.isUltimaVersao()) {
                     %>
-                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=filhos&id=<%=pop.getIdPop()%>&toriginal=<%=pop.getIdPop()%>">Anteriores</a>     
+                    <a class ="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=listarAnterioresPop&idPop=<%=pop.getIdPop()%>">Anteriores</a>     
                     <%
                         }
                         if (pop.getIdCriador() == l.getIdUsuario() && pop.isUltimaVersao()) {
@@ -85,14 +84,13 @@
                         if (pop.isUltimaVersao()) {
                     %>
 
-                    <a class ="btn btn-default" OnClick="return confirm('Deseja excluir TODAS as versões?')" href="/SistemaPop/Acao?tipo=pop&operacao=excluirTodosPopsAnteriores&idPop=<%=pop.getIdPop()%>">Excluir Todas Versões</a>         
+                    <a class ="btn btn-default" OnClick="return confirm('Deseja excluir TODAS as vers�es?')" href="/SistemaPop/Acao?tipo=pop&operacao=excluirTodosPopsAnteriores&idPop=<%=pop.getIdPop()%>">Excluir Todas Vers�es</a>         
 
                     <%
                             }
                         }
                     %>
                 </div>
-
             </div> 
             <%
                 }

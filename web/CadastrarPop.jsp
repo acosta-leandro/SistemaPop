@@ -7,7 +7,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="Classes.Pop"%>
 <%@page import="Classes.Usuario"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -48,17 +48,17 @@
 
             <form action="/SistemaPop/Acao?tipo=pop&operacao=cadastrarPop" method="post" class="form-horizontal">            
                 <div class="form-group">               
-                        <input type="hidden" name="idCriador" value="<%= userLogado.getIdUsuario()%>">
-                        <input type="hidden" name="idUpdate" value="<%= pop.getIdPop()%>">
-                        <input type="hidden" name="versao" value="<%= pop.getVersao()+1%>">
-                        <input type="hidden" name="ultimaVersao" value="<%= pop.isUltimaVersao()%>">
-                        <input type="hidden" name="excluido" value="<%= pop.isExcluido()%>">
+                    <input type="hidden" name="idCriador" value="<%= userLogado.getIdUsuario()%>">
+                    <input type="hidden" name="idUpdate" value="<%= pop.getIdPop()%>">
+                    <input type="hidden" name="versao" value="<%= pop.getVersao() + 1%>">
+                    <input type="hidden" name="ultimaVersao" value="<%= pop.isUltimaVersao()%>">
+                    <input type="hidden" name="excluido" value="<%= pop.isExcluido()%>">
                 </div>
 
                 <div class="form-group">
-                    <label  class="col-sm-2 control-label">TÃ­tulo</label>
+                    <label  class="col-sm-2 control-label">Título</label>
                     <div class="col-md-8">
-                        <textarea class="form-control" rows="1" name ="titulo" placeholder="Insira o tÃ­tulo*"><%= pop.getTitulo()%></textarea>
+                        <textarea class="form-control" rows="1" name ="titulo" placeholder="Insira o título*"><%= pop.getTitulo()%></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -68,21 +68,21 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label  class="col-sm-2 control-label">AplicaÃ§Ã£o:</label>
+                    <label  class="col-sm-2 control-label">Aplicação:</label>
                     <div class="col-md-8">
-                        <textarea class="form-control" rows="4" name ="aplicacao" placeholder="Insira a aplicaÃ§Ã£o*"><%= pop.getAplicacao()%></textarea>
+                        <textarea class="form-control" rows="4" name ="aplicacao" placeholder="Insira a aplicação*"><%= pop.getAplicacao()%></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label  class="col-sm-2 control-label">ConteÃºdo:</label>
+                    <label  class="col-sm-2 control-label">Conteúdo:</label>
                     <div class="col-md-8">
-                        <textarea class="form-control" rows="4" name ="conteudo" placeholder="Insira o conteÃºdo*"><%= pop.getConteudo()%></textarea>
+                        <textarea class="form-control" rows="4" name ="conteudo" placeholder="Insira o conteúdo*"><%= pop.getConteudo()%></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label  class="col-sm-2 control-label">DivulgaÃ§Ã£o:</label>
+                    <label  class="col-sm-2 control-label">Divulgação:</label>
                     <div class="col-md-8">
-                        <textarea class="form-control" rows="4" name ="divulgacao" placeholder="Insira a divulgaÃ§Ã£o*"><%= pop.getDivulgacao()%></textarea>
+                        <textarea class="form-control" rows="4" name ="divulgacao" placeholder="Insira a divulgação*"><%= pop.getDivulgacao()%></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -117,7 +117,7 @@
                     <div class="col-sm-offset-2 col-sm-10">                           
                         <button type="submit" class="btn btn-default">Salvar</button>  
                         <a class ="btn btn-default" href="javascript:retornar();">Voltar</a>   
-                        <h5>* = Campos obrigatÃ³rios</h5>   
+                        <h5>* = Campos obrigatórios</h5>   
                     </div>                
                 </div>
         </div>

@@ -127,4 +127,85 @@ public class DAOMelhoria {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+
+    public ArrayList<Melhoria> pesquisar(String termo) {
+
+        ArrayList<Melhoria> melhorias = new ArrayList<>();
+        ResultSet resultado;
+        String sql = "SELECT * FROM melhoria WHERE melhoria ILIKE '%" + termo + "%';";
+
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while (resultado.next()) {
+                Melhoria melhoria = new Melhoria(0, "", false, false, 0, 0, false);
+                melhoria.setIdMelhoria(resultado.getInt("idMelhoria"));
+                melhoria.setMelhoria(resultado.getString("melhoria"));
+                melhoria.setUtil(resultado.getBoolean("util"));
+                melhoria.setFeita(resultado.getBoolean("feita"));
+                melhoria.setIdPop(resultado.getInt("idPop"));
+                melhoria.setIdUsuario(resultado.getInt("idUsuario"));
+                melhoria.setExcluido(resultado.getBoolean("excluido"));
+                melhorias.add(melhoria);
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar pop: " + e);
+        }
+        return melhorias;
+    }
+
+    public ArrayList<Melhoria> pesquisarComPopId(String termo, int idPop) {
+
+        ArrayList<Melhoria> melhorias = new ArrayList<>();
+        ResultSet resultado;
+        String sql = "SELECT * FROM melhoria WHERE melhoria LIKE '%" + termo + "%' AND idPop = " + idPop + ";";
+
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while (resultado.next()) {
+                Melhoria melhoria = new Melhoria(0, "", false, false, 0, 0, false);
+                melhoria.setIdMelhoria(resultado.getInt("idMelhoria"));
+                melhoria.setMelhoria(resultado.getString("melhoria"));
+                melhoria.setUtil(resultado.getBoolean("util"));
+                melhoria.setFeita(resultado.getBoolean("feita"));
+                melhoria.setIdPop(resultado.getInt("idPop"));
+                melhoria.setIdUsuario(resultado.getInt("idUsuario"));
+                melhoria.setExcluido(resultado.getBoolean("excluido"));
+                melhorias.add(melhoria);
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar pop: " + e);
+        }
+        return melhorias;
+    }
+
+    public ArrayList<Melhoria> pesquisarPopId(int idPop) {
+
+        ArrayList<Melhoria> melhorias = new ArrayList<>();
+        ResultSet resultado;
+        String sql = "SELECT * FROM melhoria WHERE idPop = " + idPop + ";";
+
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while (resultado.next()) {
+                Melhoria melhoria = new Melhoria(0, "", false, false, 0, 0, false);
+                melhoria.setIdMelhoria(resultado.getInt("idMelhoria"));
+                melhoria.setMelhoria(resultado.getString("melhoria"));
+                melhoria.setUtil(resultado.getBoolean("util"));
+                melhoria.setFeita(resultado.getBoolean("feita"));
+                melhoria.setIdPop(resultado.getInt("idPop"));
+                melhoria.setIdUsuario(resultado.getInt("idUsuario"));
+                melhoria.setExcluido(resultado.getBoolean("excluido"));
+                melhorias.add(melhoria);
+
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar pop: " + e);
+        }
+        return melhorias;
+    }
 }

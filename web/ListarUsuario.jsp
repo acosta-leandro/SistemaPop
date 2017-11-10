@@ -1,6 +1,6 @@
 <%@page import="DAOs.DAOUsuario"%>
 <%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +10,7 @@
     <body>
         <%@include file="Menu.jsp" %>
         <div class="container">
-            <h1>UsuÃ¡rios</h1>
+            <h1>Usuários</h1>
 
             <%                String notificacao = (String) request.getAttribute("notificacao");
                 ArrayList<Usuario> logins = (ArrayList<Usuario>) request.getAttribute("consulta");
@@ -39,8 +39,8 @@
                         <td>Nome</td>
                         <td>Login</td>
                         <td>E-mail</td>
-                        <td>PermissÃ£o</td>
-                        <td>Alterar PermissÃ£o</td>
+                        <td>Permissão</td>
+                        <td>Alterar Permissão</td>
                         <td>Estado</td>
                     </tr>
                     <%
@@ -56,7 +56,7 @@
                         <td><%= usuario.getLogin()%> </td>
                         <td><%= usuario.getEmail()%> </td>
                         <% if (usuario.getPermissao().equals("U")) {%>
-                        <td><%= "UsuÃ¡rio"%> </td>  
+                        <td><%= "Usuário"%> </td>  
                         <% } else if (usuario.getPermissao().equals("R")) {%>
                         <td><%= "Revisor"%> </td>   
                         <% } else {%>
@@ -67,7 +67,7 @@
                         <% } else if (usuario.getPermissao().equals("R")) {%>
                         <td><a OnClick="return confirm('Promover para Administrador')" href="/SistemaPop/Acao?tipo=usuario&operacao=tAdm&idusuario=<%= usuario.getIdUsuario()%>">Tornar Administrador</a> </td>
                         <% } else {%>
-                        <td><a OnClick="return confirm('Rebaixar para UsuÃ¡rio?')" href="/SistemaPop/Acao?tipo=usuario&operacao=tUser&idusuario=<%= usuario.getIdUsuario()%>">Tornar UsuÃ¡rio</a> </td>
+                        <td><a OnClick="return confirm('Rebaixar para Usuário?')" href="/SistemaPop/Acao?tipo=usuario&operacao=tUser&idusuario=<%= usuario.getIdUsuario()%>">Tornar Usuário</a> </td>
                         <%}%>
                         <% if (usuario.isAtivo()) {%>
                         <td><a OnClick="return confirm('Deseja desativar?')" href="/SistemaPop/Acao?tipo=usuario&operacao=desativar&idusuario=<%= usuario.getIdUsuario()%>">Desativar</a> </td>
@@ -81,7 +81,7 @@
                 } else {
                 %>
                 <div>
-                    <h2>Somente diposnÃ­vel para administradores!</h2>
+                    <h2>Somente diposnível para administradores!</h2>
                 </div>
                 <%
                     }
@@ -89,7 +89,7 @@
                 %>
 
 
-                <a class="btn btn-default" href="Home.jsp">Voltar ao inÃ­cio</a>
+                <a class="btn btn-default" href="Home.jsp">Voltar ao início</a>
             </div>
         </div>
     </body>

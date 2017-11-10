@@ -1,5 +1,5 @@
 <%@page import="Classes.Usuario"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,9 +33,9 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">√Årea<span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">¡rea<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="CadastrarArea.jsp">Nova √Årea</a></li>
+                                    <li><a href="CadastrarArea.jsp">Nova ¡rea</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">Listar</li>
                                     <li><a href="ListarArea.jsp">Todos</a></li>
@@ -49,8 +49,8 @@
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">Listar</li>
                                     <li><a href="ListarPop.jsp">Todos</a></li>
-                                    <li><a href="#">10 √öltimos</a></li>
-                                    <li><a href="#">Por √Årea</a></li>
+                                    <li><a href="#">10 ⁄ltimos</a></li>
+                                    <li><a href="#">Por ¡rea</a></li>
                                 </ul>
                             </li>
 
@@ -68,7 +68,7 @@
 
                             <%                                    //    if (l.getPermissao().equalsIgnoreCase("A")) {
                             %>
-                            <li><a href="ListarUsuario.jsp">Usu√°rios</a></li>         
+                            <li><a href="ListarUsuario.jsp">Usu·rios</a></li>         
                                 <%              //                  }
                                 %>
 
@@ -77,9 +77,9 @@
                         <ul class="nav navbar-nav navbar-right">
 
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ol√° <%=userLogado.getNome()%>  <span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ol· <%=userLogado.getNome()%>  <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/SistemaPop/Acao?tipo=usuario&operacao=editar&idusuario=<%=userLogado.getIdUsuario()%>">Editar Usu√°rio</a></li>
+                                    <li><a href="/SistemaPop/Acao?tipo=usuario&operacao=editar&idusuario=<%=userLogado.getIdUsuario()%>">Editar Usu·rio</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header"></li>
                                     <li><a OnClick="return confirm('Confirma Logout?')" href="/SistemaPop/Acao?tipo=usuario&operacao=logout">Logout</a></li>

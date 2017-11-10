@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-10-27T15:43:04 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelQuantAcessosPop" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5ebba3b-fd79-4f3a-b0ec-856f228e9d4c">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<parameter name="idPop" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT melhoria.melhoria, usuario.nome, pop.titulo
+FROM melhoria, pop, usuario
+WHERE melhoria.idpop = pop.idpop
+AND melhoria.idusuario = usuario.idusuario
+AND melhoria.idpop =  $P{idPop}]]>
+	</queryString>
+	<field name="melhoria" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="titulo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="79" uuid="93327f34-2a4d-4093-8f16-939cca27ffbd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="40"/>
+				</textElement>
+				<text><![CDATA[Sistema POP]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="10" width="280" height="30" uuid="26d1cdf5-f945-4d5a-bb5f-8a9335a53353"/>
+				<textElement>
+					<font size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Melhorias do POP - " + $F{titulo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="280" height="30" uuid="97910eea-2bdf-47d5-b39b-5718c27bd2e4"/>
+				<text><![CDATA[Melhoria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="250" height="30" uuid="9f2dfd15-9f05-4fd9-b723-5a164624b802"/>
+				<text><![CDATA[Solicitante]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="53" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="280" height="30" uuid="7acb7198-8fa6-4ba0-888f-aeda2288efdf"/>
+				<textFieldExpression><![CDATA[$F{melhoria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="245" height="30" uuid="04744ebe-2671-4501-a411-04c95a60e307"/>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="48" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

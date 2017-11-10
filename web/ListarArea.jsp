@@ -1,7 +1,7 @@
 <%@page import="Classes.Area"%>
 <%@page import="DAOs.DAOArea"%>
 <%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,7 +11,7 @@
     <body>
         <%@include file="Menu.jsp" %>
         <div class="container">
-            <h1>√Åreas</h1>
+            <h1>¡reas</h1>
 
             <%                String notificacao = (String) request.getAttribute("notificacao");
                 ArrayList<Area> logins = (ArrayList<Area>) request.getAttribute("consulta");
@@ -42,7 +42,7 @@
                         <td><%= area.getIdArea()%> </td>
                         <td><%= area.getDescricao()%> </td>
                         <td><a href="/SistemaPop/Acao?tipo=area&operacao=editar&idarea=<%= area.getIdArea()%>">Editar</a> </td>
-                        <td><a OnClick="return confirm('Confirma Exclus√£o?')" href="/SistemaPop/Acao?tipo=area&operacao=excluir&idarea=<%= area.getIdArea()%>">Excluir</a> </td>
+                        <td><a OnClick="return confirm('Confirma Exclus„o?')" href="/SistemaPop/Acao?tipo=area&operacao=excluir&idarea=<%= area.getIdArea()%>">Excluir</a> </td>
                     </tr>
                     <%
                         }

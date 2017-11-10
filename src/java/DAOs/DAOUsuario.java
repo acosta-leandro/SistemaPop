@@ -84,6 +84,7 @@ public class DAOUsuario {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao efetuar login: " + e);
         }
+        new DAOHomeStatus().callStats();
         return usuario;
     }
 
