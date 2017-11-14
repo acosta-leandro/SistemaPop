@@ -34,7 +34,7 @@
         <div class="container">
             <div class="row">
                 <div role="main" class="col-md-9 col-md-push-3">    
-                    <h2>Resultados</h2>
+                    <h2>Pops por Usuário</h2>
                 </div>
                 <nav class="col-md-3 col-md-pull-9">
                     <h2>Parâmetros</h2>

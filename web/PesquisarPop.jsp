@@ -29,7 +29,7 @@
         <div class="container">
             <div class="row">
                 <div role="main" class="col-md-9 col-md-push-3">    
-                    <h2>Resultados</h2>
+                    <h2>Resultados - falta hiperlink</h2>
                     <dl>
                         <%
                             for (int i = 0; i < pops.size(); i++) {

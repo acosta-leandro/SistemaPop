@@ -34,11 +34,11 @@
         <div class="container">
             <div class="row">
                 <div role="main" class="col-md-9 col-md-push-3">    
-                    <h2>Resultados</h2>
+                    <h2>Pops Anteriores - Não terminado</h2>
                 </div>
                 <nav class="col-md-3 col-md-pull-9">
                     <h2>Parâmetros</h2>
-                    <form action="/SistemaPop/Acao?tipo=relatorio&operacao=MelhoriasPorPop" method="post" class="form-inline">
+                    <form action="/SistemaPop/Acao?tipo=relatorio&operacao=PopAnteriores" method="post" class="form-inline">
                         <label>Pop:</label>
                         <select name="idPop">
                             <%                                for (int i = 0; i < pops.size(); i++) {
