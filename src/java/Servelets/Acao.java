@@ -25,11 +25,17 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.DatePicker;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -141,7 +147,6 @@ public class Acao extends HttpServlet {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("tRevisor")) {
                 tRevisor();
             }
-
         }
         if (requisicao.getParameter("tipo").equalsIgnoreCase("area")) {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("cadastrarArea")) {
@@ -163,6 +168,9 @@ public class Acao extends HttpServlet {
             }
             if (requisicao.getParameter("operacao").equalsIgnoreCase("visualizarPop")) {
                 visualizarPop();
+            }
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("visualizarPopPesquisa")) {
+                visualizarPopPesquisa();
             }
             if (requisicao.getParameter("operacao").equalsIgnoreCase("excluirPop")) {
                 excluirPop();
@@ -213,8 +221,8 @@ public class Acao extends HttpServlet {
             if (requisicao.getParameter("operacao").equalsIgnoreCase("PopPorUsuario")) {
                 PopPorUsuario();
             }
-            if (requisicao.getParameter("operacao").equalsIgnoreCase("PopAnteriores")) {
-                PopAnteriores();
+            if (requisicao.getParameter("operacao").equalsIgnoreCase("PopPorData")) {
+                PopPorData();
             }
         }
     }
@@ -438,12 +446,41 @@ public class Acao extends HttpServlet {
                 Boolean.valueOf(requisicao.getParameter("ultimaVersao")),
                 Boolean.valueOf(requisicao.getParameter("excluido")));
 
-        daoPop.cadastrar(pop);
-        String notificacao = "Cadastro feito com sucesso";
-        requisicao.setAttribute("notificacao", notificacao);
-        requisicao.setAttribute("paginaRetorno", "cadastrarLogin");
-        encaminharPagina("Home.jsp");
+        //VALIDAR CAMPOS
+        if (requisicao.getParameter("titulo").isEmpty() == true
+                || requisicao.getParameter("objetivo").isEmpty() == true
+                || requisicao.getParameter("aplicacao").isEmpty() == true
+                || requisicao.getParameter("conteudo").isEmpty() == true
+                || requisicao.getParameter("divulgacao").isEmpty() == true) {
+            String erro = "";
 
+            if (requisicao.getParameter("titulo").isEmpty() == true) {
+                erro = "Título em branco";
+            }
+            if (requisicao.getParameter("objetivo").isEmpty() == true) {
+                erro = erro + " - Objetivo em branco";
+            }
+            if (requisicao.getParameter("aplicacao").isEmpty() == true) {
+                erro = erro + " - Aplicação em branco";
+            }
+            if (requisicao.getParameter("conteudo").isEmpty() == true) {
+                erro = erro + " - Conteúdo em branco";
+            }
+            if (requisicao.getParameter("divulgacao").isEmpty() == true) {
+                erro = erro + " - Divulgação em branco";
+
+            }
+            requisicao.setAttribute("erro", erro);
+            requisicao.setAttribute("pop", pop);
+            encaminharPagina("CadastrarPop.jsp");
+        } else {
+
+            daoPop.cadastrar(pop);
+            String notificacao = "Cadastro feito com sucesso";
+            requisicao.setAttribute("notificacao", notificacao);
+            requisicao.setAttribute("paginaRetorno", "cadastrarLogin");
+            encaminharPagina("Home.jsp");
+        }
     }
 
     private void logout() {
@@ -538,28 +575,28 @@ public class Acao extends HttpServlet {
 
     private void melhoriaSeraFeitaSim() {
         daoMelhoria.seraFeito(Integer.parseInt(requisicao.getParameter("idMelhoria")), "true");
-        String notificacao = "Melhoria Será Feita!";
+        String notificacao = "Melhoria Analisada!";
         requisicao.setAttribute("notificacao", notificacao);
         encaminharPagina("ListarMelhoria.jsp");
     }
 
     private void melhoriaSeraFeitaNao() {
         daoMelhoria.seraFeito(Integer.parseInt(requisicao.getParameter("idMelhoria")), "false");
-        String notificacao = "Melhoria Não Será Feita!";
+        String notificacao = "Análise removida!";
         requisicao.setAttribute("notificacao", notificacao);
         encaminharPagina("ListarMelhoria.jsp");
     }
 
     private void melhoriaFoiFeitaSim() {
         daoMelhoria.foiFeito(Integer.parseInt(requisicao.getParameter("idMelhoria")), "true");
-        String notificacao = "Melhoria Feita!";
+        String notificacao = "Melhoria Executada!";
         requisicao.setAttribute("notificacao", notificacao);
         encaminharPagina("ListarMelhoria.jsp");
     }
 
     private void melhoriaFoiFeitaNao() {
         daoMelhoria.foiFeito(Integer.parseInt(requisicao.getParameter("idMelhoria")), "false");
-        String notificacao = "Melhoria Não Feita!";
+        String notificacao = "Execução removida!";
         requisicao.setAttribute("notificacao", notificacao);
         encaminharPagina("ListarMelhoria.jsp");
     }
@@ -593,6 +630,29 @@ public class Acao extends HttpServlet {
         String notificacao = "Pop Impresso!";
         requisicao.setAttribute("notificacao", notificacao);
         encaminharPagina("ListarPop.jsp");
+    }
+
+    private void visualizarPopPesquisa() {
+
+        Estatistica tmpEst = new Estatistica(0,
+                Integer.valueOf(requisicao.getParameter("idPop")),
+                "a",
+                null,
+                Integer.valueOf(requisicao.getParameter("idUser")));
+        new DAOEstatistica().salvarVisualizacao(tmpEst);
+
+        PrintReport printReport = new PrintReport();
+        Map parametros = new HashMap();
+        Pop tmpPop = daoPop.consultarId(Integer.valueOf(requisicao.getParameter("idPop")));
+        Usuario tmpAutor = daoUsuario.consultarId(tmpPop.getIdCriador());
+        Usuario tmpRevisor = daoUsuario.consultarId(tmpPop.getIdCriador());
+        parametros.put("idPop", Integer.valueOf(requisicao.getParameter("idPop")));
+        parametros.put("autor", tmpAutor.getNome());
+        parametros.put("revisor", tmpRevisor.getNome());
+        parametros.put("data", new java.text.SimpleDateFormat("dd/MM/yyyy").format(tmpPop.getDtCriacao()));
+        printReport.showReportWithParameters("Pop.jrxml", parametros);
+        String notificacao = "Pop Impresso!";
+        requisicao.setAttribute("notificacao", notificacao);
     }
 
     private void editarPop() {
@@ -658,13 +718,23 @@ public class Acao extends HttpServlet {
         encaminharPagina("PopPorUsuario.jsp");
     }
 
-    private void PopAnteriores() {
+    private void PopPorData() {
         PrintReport printReport = new PrintReport();
         Map parametros = new HashMap();
-        parametros.put("idPop", Integer.valueOf(requisicao.getParameter("idPop")));
-        printReport.showReportWithParameters("PopAnteriores.jrxml", parametros);
-        String notificacao = "Pop Anteriores Impresso!";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date1 = null;
+        java.util.Date date2 = null;
+        try {
+            date1 = sdf.parse(requisicao.getParameter("data1"));
+            date2 = sdf.parse(requisicao.getParameter("data1"));
+        } catch (ParseException ex) {
+            Logger.getLogger(Acao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        parametros.put("data1", date1);
+        parametros.put("data2", date2);
+        printReport.showReportWithParameters("PopPorData.jrxml", parametros);
+        String notificacao = "Pop por Data Impresso!";
         requisicao.setAttribute("notificacao", notificacao);
-        encaminharPagina("PopAnteriores.jsp");
+        encaminharPagina("PopPorData.jsp");
     }
 }

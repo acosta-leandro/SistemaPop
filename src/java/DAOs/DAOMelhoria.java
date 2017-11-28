@@ -208,4 +208,27 @@ public class DAOMelhoria {
         }
         return melhorias;
     }
+    
+    public int notificarUserMelhoriasPendentes(int idUser) {
+        ArrayList<Melhoria> melhorias = new ArrayList<>();
+        int contagemMelhoriasPendentes = 0;
+        DAOPop daoPop = new DAOPop();
+        ResultSet resultado;
+        String sql = "SELECT * FROM melhoria WHERE util = false;";
+        int idPop = 0;
+        try {
+            resultado = ConexaoBD.getInstance().getConnection().createStatement().executeQuery(sql);
+
+            while (resultado.next()) {
+                idPop = resultado.getInt("idPop");
+                Pop pop = daoPop.consultarId(idPop);
+                if (pop.getIdCriador() == idUser) {
+                    contagemMelhoriasPendentes++;
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar melhoria: " + e);
+        }
+        return contagemMelhoriasPendentes;
+    }
 }

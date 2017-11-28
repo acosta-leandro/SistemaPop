@@ -39,7 +39,7 @@
 
             <div class="container"> 
                 <form action="/SistemaPop/Acao?tipo=melhoria&operacao=pesquisarMelhoria" method="post" class="form-inline">
-                   
+
                     <div class="form-group">
                         <label  class="form-control">Pop:</label>
                         <div class="col-md-8">
@@ -54,13 +54,13 @@
                             </select>      
                         </div>
                     </div> 
-                            
+
                     <div class="form-group">
                         <input type="text" class="form-control" name="consulta">
                     </div> 
-                            
+
                     <div class="form-group">
-                         <button type="submit" class="btn btn-default">Pesquisar</button>  
+                        <button type="submit" class="btn btn-default">Pesquisar</button>  
                     </div> 
                     <br>
                     </div>
@@ -76,8 +76,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><%= "ID " + melhoria.getIdMelhoria() + " | V" + pop.getVersao() + " | POP " + pop.getTitulo()%>  
-                                <a class="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=visualizarPop&idPop=<%= pop.getIdPop()%>">Visualizar Pop</a>    
-                                <a class="btn btn-default" OnClick="return confirm('Confirma Exclusão?')" href="/SistemaPop/Acao?tipo=melhoria&operacao=excluirMelhoria&idMelhoria=<%= melhoria.getIdMelhoria()%>">Excluir Melhoria</a>     
+                                <a class="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=visualizarPop&idPop=<%= pop.getIdPop()%>&idUser=<%= usuario.getIdUsuario()%>">Visualizar</a>                                <a class="btn btn-default" OnClick="return confirm('Confirma Exclusão?')" href="/SistemaPop/Acao?tipo=melhoria&operacao=excluirMelhoria&idMelhoria=<%= melhoria.getIdMelhoria()%>">Excluir Melhoria</a>     
                             </h3>
                         </div>
 
@@ -87,7 +86,7 @@
                         <% if (usuario.getPermissao().equals("A")) {%>
                         <div class="panel-footer">    
                             <div class="row">
-                                <div class="col-md-4">Será Feito?</div>
+                                <div class="col-md-4">Analisada?</div>
                                 <% if (melhoria.isUtil()) {%>
                                 <div class="col-md-4">Sim</div>
                                 <div class="col-md-4"><a class="btn btn-default" href="/SistemaPop/Acao?tipo=melhoria&operacao=seraFeitoNao&idMelhoria=<%= melhoria.getIdMelhoria()%>">Não</a></div>
@@ -98,7 +97,7 @@
                             </div> 
                             <br>
                             <div class="row">
-                                <div class="col-md-4">Foi Feito?</div>
+                                <div class="col-md-4">Executada?</div>
                                 <% if (melhoria.isFeita()) {%>
                                 <div class="col-md-4">Sim</div>
                                 <div class="col-md-4"><a class="btn btn-default" href="/SistemaPop/Acao?tipo=melhoria&operacao=foiFeitoNao&idMelhoria=<%= melhoria.getIdMelhoria()%>">Não</a></div>

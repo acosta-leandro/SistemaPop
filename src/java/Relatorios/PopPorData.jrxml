@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-10-27T13:54:04 -->
+<!-- 2017-11-28T13:51:50 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelQuantAcessosPop" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f5ebba3b-fd79-4f3a-b0ec-856f228e9d4c">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<parameter name="dtInicial" class="java.sql.Date"/>
-	<parameter name="dtFinal" class="java.sql.Date">
-		<parameterDescription><![CDATA[]]></parameterDescription>
-	</parameter>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
 	<queryString language="SQL">
-		<![CDATA[SELECT pop.titulo,
-	usuario.nome
-FROM estatistica,
-	pop,
-	usuario
-WHERE estatistica.pop = pop.idpop 
-	 AND estatistica.user = usuario.idusuario
-	 AND  estatistica.data BETWEEN $P{dtInicial} AND $P{dtFinal}]]>
+		<![CDATA[select pop.titulo, pop.dtcriacao, pop.versao
+from pop 
+where pop.dtcriacao BETWEEN  '2013-10-10'  and '2021-10-10']]>
 	</queryString>
 	<field name="titulo" class="java.lang.String"/>
-	<field name="nome" class="java.lang.String"/>
+	<field name="dtcriacao" class="java.sql.Date"/>
+	<field name="versao" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -40,7 +33,7 @@ WHERE estatistica.pop = pop.idpop
 				<textElement>
 					<font size="19"/>
 				</textElement>
-				<text><![CDATA[Pops Anteriores]]></text>
+				<text><![CDATA[Pop por Periodo]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
 				<reportElement x="310" y="10" width="100" height="30" uuid="9bddc0d7-3a4a-4deb-8cc5-df1760bff30c"/>
@@ -56,24 +49,32 @@ new java.util.Date()]]></textFieldExpression>
 	<columnHeader>
 		<band height="38" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="260" height="30" uuid="b9dd57e8-d2f0-4605-a300-1d079838995a"/>
-				<text><![CDATA[POP]]></text>
+				<reportElement x="0" y="4" width="310" height="30" uuid="718459c9-afb8-49ed-a71d-1247d4954769"/>
+				<text><![CDATA[Título]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="290" y="0" width="260" height="30" uuid="4cb1e311-6209-4db9-8692-c483bde639b0"/>
-				<text><![CDATA[Usuário]]></text>
+				<reportElement x="340" y="4" width="70" height="30" uuid="b2ccf0bf-fb70-479d-8551-63fd9f177aab"/>
+				<text><![CDATA[Versão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="4" width="100" height="30" uuid="e0d25b97-6324-4c7e-87a0-3e45bc633835"/>
+				<text><![CDATA[Data Criação]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="53" splitType="Stretch">
+		<band height="37" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="260" height="30" uuid="0740197c-fae0-4f77-959b-764ac5117bf2"/>
+				<reportElement x="0" y="0" width="310" height="30" uuid="88ad543b-b407-47a6-944a-dd02aa41aa68"/>
 				<textFieldExpression><![CDATA[$F{titulo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="290" y="0" width="260" height="30" uuid="94ae9ee2-68e2-4dbe-bcc7-78b1fb562abf"/>
-				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				<reportElement x="340" y="0" width="70" height="30" uuid="eb8ffa10-20cd-4300-9242-f57f554614dc"/>
+				<textFieldExpression><![CDATA[$F{versao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="0" width="100" height="30" uuid="6d968280-b66c-4300-83c3-a84fe59e0bdc"/>
+				<textFieldExpression><![CDATA[$F{dtcriacao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

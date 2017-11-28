@@ -77,7 +77,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="MelhoriasPorPop.jsp">Melhorias por Pop</a></li>
                                     <li><a href="PopPorUsuario.jsp">Pop por Usuário</a></li>
-                                    <li><a href="PopAnteriores.jsp">Pop Relacionados</a></li>
+                                    <li><a href="PopPorData.jsp">Pop pop Data</a></li>
                                 </ul>
                             </li>
 

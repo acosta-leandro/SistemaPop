@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Apoio.Formatacao"%>
 <%@page import="DAOs.DAOUsuario"%>
 <%@page import="Classes.Pop"%>
@@ -20,6 +21,8 @@
                 ArrayList<Pop> pops = new DAOPop().consultarTodos();
                 Usuario l = (Usuario) session.getAttribute("usuarioLogado");
                 DAOPop daofbpop = new DAOPop();
+                SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+
 
                 if (pops == null) {
                     pops = new DAOPop().consultarTodos();
@@ -52,7 +55,7 @@
             <input type="hidden" name="idpoppai" value="<%= pop.getIdPop()%>">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><%= "V" + pop.getVersao() + " - " + pop.getTitulo()%>  
+                    <h3 class="panel-title"><%= "V" + pop.getVersao() + " - " + formatador.format(pop.getDtCriacao()) +" - "+ pop.getTitulo()%>  
                         <a class="btn btn-default" href="/SistemaPop/Acao?tipo=pop&operacao=visualizarPop&idPop=<%= pop.getIdPop()%>&idUser=<%= l.getIdUsuario()%>">Visualizar</a>    
                     </h3>
                 </div>

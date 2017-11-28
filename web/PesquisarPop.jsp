@@ -19,25 +19,34 @@
         <link href="bootstrap/css/home.css" rel="stylesheet">
         <title>JSP Page</title>
         <%@include file="Menu.jsp" %>
+
+        <script language="JavaSript">
+            function retornar() {
+                history.go(-1);
+            }
+        </script>
+
     </head>
     <body>
         <%            ArrayList<Usuario> logins = new DAOUsuario().consultarTodos();
             ArrayList<String> popMaisAcessados = HomeStatus.getPopString();
             ArrayList<Pop> pops = (ArrayList<Pop>) request.getAttribute("pops");
+            Usuario l = (Usuario) session.getAttribute("usuarioLogado");
             EstatisticaPesquisa estPesq = (EstatisticaPesquisa) request.getAttribute("estPesq");
         %>
         <div class="container">
             <div class="row">
                 <div role="main" class="col-md-9 col-md-push-3">    
-                    <h2>Resultados - falta hiperlink</h2>
+                    <h2>Resultados</h2>
                     <dl>
-                        <%
-                            for (int i = 0; i < pops.size(); i++) {
-                                Pop tmpPop = pops.get(i);
+                                <%
+                                    for (int i = 0; i < pops.size(); i++) {
+                                        Pop tmpPop = pops.get(i);
 
-                        %>
-                        <dt><%= tmpPop.getTitulo() %> </dt>
-                        <%  }%>
+                                %>
+                                <dt><a href="/SistemaPop/Acao?tipo=pop&operacao=visualizarPopPesquisa&idPop=<%= tmpPop.getIdPop()%>&idUser=<%= l.getIdUsuario()%>" target="_blank"> <%= "V" + tmpPop.getVersao() + " - "
+                                + tmpPop.getTitulo()%> </a></dt>
+                                <%  }%>
                     </dl>
                 </div>
                 <nav class="col-md-3 col-md-pull-9">

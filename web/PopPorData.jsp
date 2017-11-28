@@ -34,19 +34,20 @@
         <div class="container">
             <div class="row">
                 <div role="main" class="col-md-9 col-md-push-3">    
-                    <h2>Pops Anteriores - Não terminado</h2>
+                    <h2>Pops Por Data</h2>
                 </div>
                 <nav class="col-md-3 col-md-pull-9">
                     <h2>Parâmetros</h2>
-                    <form action="/SistemaPop/Acao?tipo=relatorio&operacao=PopAnteriores" method="post" class="form-inline">
-                        <label>Pop:</label>
-                        <select name="idPop">
-                            <%                                for (int i = 0; i < pops.size(); i++) {
-                                    Pop pop = (Pop) pops.get(i);
-                            %>
-                            <option value=<%=pop.getIdPop()%>> <%=pop.getTitulo()%> </option>																
-                            <% }%>
-                        </select>
+                    <form action="/SistemaPop/Acao?tipo=relatorio&operacao=PopPorData" method="post" class="form-inline">
+                        <label>Data Inicial:</label>
+                        <br>
+                        <input type="date" name="data1">
+                        <br><br>
+                        
+                        <label>Data Final:</label>
+                        <br>
+                        <input type="date" name="data2">
+                        <br>
                         <br>
                         <button type="submit" class="btn btn-lg">Gerar</button>
                     </form>

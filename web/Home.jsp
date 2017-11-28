@@ -4,6 +4,7 @@
     Author     : Leandro Acosta <leandro.acosta292@hotmail.com>
 --%>
 
+<%@page import="DAOs.DAOMelhoria"%>
 <%@page import="Classes.HomeStatus"%>
 <%@page import="DAOs.DAOUsuario"%>
 <%@page import="DAOs.DAOPop"%>
@@ -22,6 +23,9 @@
     <body>
         <%            ArrayList<Usuario> logins = new DAOUsuario().consultarTodos();
             ArrayList<String> popMaisAcessados = HomeStatus.getPopString();
+            Usuario userLogado = (Usuario) session.getAttribute("usuarioLogado");
+            DAOMelhoria daoMelhoria = new DAOMelhoria();
+            int contagemMelhorias = daoMelhoria.notificarUserMelhoriasPendentes(userLogado.getIdUsuario());
         %>
         <div class="container">
             <div class="row">
@@ -30,19 +34,20 @@
                     <dl>
                         <%
                             for (int i = 0; i < popMaisAcessados.size(); i++) {
-                               
+
                         %>
                         <dt><%= popMaisAcessados.get(i)%> </dt>
                         <%  }%>
                     </dl>
                 </div>
                 <aside role="complementary" class="col-md-3 col-md-push-3">
-                    <h2>Palavras Chaves</h2>
+                    <h2>Notificações</h2>
                     <dl>
-                        <%                        for (int i = 0; i < logins.size(); i++) {
-                                Usuario usuario = (Usuario) logins.get(i);
+                        <%
+                            if (contagemMelhorias > 0) {
+                                String mensagem = contagemMelhorias + " Melhoria(s) para análise!";
                         %>
-                        <dt><%= usuario.getIdUsuario()%> </dt>
+                        <dt><%= mensagem%> </dt>
                         <%  }%>
                     </dl>
                 </aside>

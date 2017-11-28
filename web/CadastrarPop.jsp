@@ -40,8 +40,13 @@
             } else {
             }
 
-
+            if (erro != null) {
         %>
+        <div class="alert alert-danger" role="alert"><a><%=erro%></a></div>
+                <%
+                    }
+                %>
+
         <div class="container">     
             <h2>POP</h2>
             <br>
